@@ -14,7 +14,7 @@ function App() {
       <p className="read-the-docs">
         Ori Ben Ezra and Nov Segal
       </p>
-    </>
+    </>   
   )
 }
 
