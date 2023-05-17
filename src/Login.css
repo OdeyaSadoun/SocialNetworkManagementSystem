@@ -12,7 +12,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+  background: linear-gradient(to right, #12c2e9, #dcd9dd, #f8f8f8);
 }
 
 .wrapper {
@@ -96,16 +96,16 @@ h2 {
 }
 
 .remember label input {
-  accent-color: #f4157e;
+  accent-color:  #00aeff;
 }
 
 button {
   position: relative;
   width: 100%;
   height: 40px;
-  background: #f4157e;
+  background:  #00aeff;
   font-size: 16px;
-  color: #fff;
+  color:  #00aeff;
   cursor: pointer;
   border-radius: 30px;
   border: none;
@@ -123,7 +123,7 @@ button {
 }
 
 .signUp-link p a {
-  color: #f4157e;
+  color:  #00aeff;
   text-decoration: none;
   font-weight: 500;
 }
