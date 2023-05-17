@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
-function Login (){
- 
+const Login = () => {
+  const [userName, setUserName] = useState('');
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -126,11 +126,11 @@ function Login (){
           <h2>כניסה</h2>
           <div className="input-group">
             <input type="text" id="userName" required />
-            <label htmlFor="">שם משתמש</label>
+            <label htmlFor="">username</label>
           </div>
           <div className="input-group">
             <input type="password" id="pswd" required />
-            <label htmlFor="">סיסמא</label>
+            <label htmlFor="">password</label>
           </div>
           <div className="remember">
             <label>
@@ -138,7 +138,7 @@ function Login (){
             </label>
           </div>
           <button id="signInBtn" type="submit">
-            כניסה
+            login
           </button>
           <div className="signUp-link">
             <p>
