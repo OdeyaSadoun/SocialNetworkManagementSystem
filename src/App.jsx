@@ -3,17 +3,18 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Login from './components/Login';
-function App() {
-  const [count, setCount] = useState(0)
+import HomePage from './components/HomePage';
+import {Link, Route, Routes} from 'react-router-dom'
 
+
+function App() {
+  
   return (
     <>
-      <div>
-        <Login/>
-      </div>
-      <p className="read-the-docs">
-        Ori Ben Ezra and Nov Segal
-      </p>
+      <Routes>
+        <Route path="/" element= {<HomePage/>}/>
+        <Route path="/login" element= {<Login/>}/>
+      </Routes>
     </>   
   )
 }
