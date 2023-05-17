@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
-const Login = () => {
-  const [userName, setUserName] = useState('');
+function Login (){
+ 
 
   const handleSignUp = (e) => {
     e.preventDefault();
