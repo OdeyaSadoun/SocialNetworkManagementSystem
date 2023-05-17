@@ -63,7 +63,7 @@ function Login (){
       document.cookie = 'currentUser=' + username + ';' + expires + ';path=/';
       localStorage.setItem('currentUser', JSON.stringify(username));
       // Redirect to the home page
-      window.location.href = '../html/homePage.html';
+      window.location.href = './HomePage.jsx';
     }
   };
 
