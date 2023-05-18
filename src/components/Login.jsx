@@ -112,9 +112,7 @@ const Login = () => {
       }, 1000);
     }
   };
-  const handleSignUpLinkClick = () => {
-    document.querySelector('.wrapper').classList.toggle('active');
-  };
+
 
   const handleSignInLinkClick = () => {
     document.querySelector('.wrapper').classList.toggle('active');
@@ -124,7 +122,7 @@ const Login = () => {
     <div className="wrapper">
       <div id="sign-in" className="form-wrapper sign-in">
         <form action="" role="form" onSubmit={handleSignIn} autoComplete="off">
-          <h2>כניסה</h2>
+          <h2>Login</h2>
           <div className="input-group">
             <input type="text" id="userName" required />
             <label htmlFor="">username</label>
@@ -135,20 +133,13 @@ const Login = () => {
           </div>
           <div className="remember">
             <label>
-              <input type="checkbox" /> זכור משתמש
+              <input type="checkbox" /> Remember user
             </label>
           </div>
           <button id="signInBtn" type="submit">
             login
           </button>
-          <div className="signUp-link">
-            <p>
-              עדיין אין לך חשבון?{' '}
-              <a href="#" className="signUpBtn-link" onClick={handleSignUpLinkClick}>
-                הרשמה
-              </a>
-            </p>
-          </div>
+          
         </form>
       </div>
 
@@ -172,7 +163,7 @@ const Login = () => {
             <p>
               יש לך כבר חשבון?{' '}
               <a href="#" className="signInBtn-link" onClick={handleSignInLinkClick}>
-                כניסה
+                Login
               </a>
             </p>
           </div>
