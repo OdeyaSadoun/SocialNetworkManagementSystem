@@ -4,7 +4,16 @@ import Login from './components/Login';
 import Albums from './components/Albums';
 import Album from './components/Album';
 import NotFound from './components/NotFound';
+// import { useState } from 'react';
+
+
 function App() {
+
+
+
+// console.log(fetch('https://jsonplaceholder.typicode.com/'));
+
+
   return (
   <Router>
     <>
