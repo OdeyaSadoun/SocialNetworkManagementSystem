@@ -1,7 +1,8 @@
 import React from "react";
 // import App from "../App";
 // import Login from "./Login";
-import { Link, Route, Routes } from "react-router-dom";
+import Navbar from "./NavBar";
+import { Link, Route, Outlet } from "react-router-dom";
 
 function HomePage(){
 
@@ -24,11 +25,13 @@ function HomePage(){
     
     return ( 
         <>
-            <Routes>
-
-            </Routes>
+          <Navbar></Navbar>  
+          <section className="section">
+            <Outlet/>
+          </section>
         </>
         )
 };
 
 export default HomePage;
+
