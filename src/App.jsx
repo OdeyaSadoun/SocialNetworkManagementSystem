@@ -13,7 +13,12 @@ import "./styles.css"
 
 
 function App() {
-  
+
+
+
+// console.log(fetch('https://jsonplaceholder.typicode.com/'));
+
+
   return (
   <Router>
     <>
