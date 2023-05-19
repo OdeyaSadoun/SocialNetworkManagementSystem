@@ -41,13 +41,13 @@ function App() {
     </nav>
     
       <Routes>
-        <Route path="/users/:id">
+        
           <Route path="/" element={<HomePage />} />
           <Route path="/Album" element={<Album />} />
           <Route path="/Albums" element={<Albums />} />
           <Route path="/Albums/:id" element={<Album />} /> 
           <Route path="*" element={<NotFound />} />
-        </Route>
+      
          <Route path="/login" element={<Login />} />
       </Routes>
    
