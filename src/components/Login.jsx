@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './Login.css';
-const Login = () => {
+import { useEffect } from 'react';
+import {Navigate,useNavigate}from "react-router-dom"
+
+function Login () {
   const [userName, setUserName] = useState('');
 
   const handleSignUp = (e) => {
@@ -116,7 +119,12 @@ const Login = () => {
   const handleSignInLinkClick = () => {
     document.querySelector('.wrapper').classList.toggle('active');
   };
-
+  const navigate=useNavigate()
+  useEffect(()=>{
+  setTimeout(()=>{
+    navigate("/")
+  },10000)
+  },[])
   return (
     <div className="wrapper">
       <div id="sign-in" className="form-wrapper sign-in">
