@@ -5,7 +5,7 @@ import Albums from './components/Albums';
 import Album from './components/Album';
 import NotFound from './components/NotFound';
 import { useLocation } from 'react-router-dom';
-
+import Todos from './components/Todos';
 import "./styles.css"
 
 
@@ -36,7 +36,9 @@ function App() {
         <li>  
           <NavLink to="/Album">Album</NavLink> 
         </li> 
-        
+        <li>  
+          <NavLink to="/Todos">Todos</NavLink> 
+        </li> 
       </ul>
     </nav>
     
@@ -47,8 +49,8 @@ function App() {
           <Route path="/Albums" element={<Albums />} />
           <Route path="/Albums/:id" element={<Album />} /> 
           <Route path="*" element={<NotFound />} />
-      
-         <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+         <Route path="/Todos" element={<Todos />} />
       </Routes>
    
     </> 
