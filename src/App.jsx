@@ -43,7 +43,7 @@ function App() {
     </nav>
     
       <Routes>
-        
+     
           <Route path="/" element={<HomePage />} />
           <Route path="/Album" element={<Album />} />
           <Route path="/Albums" element={<Albums />} />
