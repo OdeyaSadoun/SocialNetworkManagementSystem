@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, Route, Routes ,Outlet} from "react-router-dom";
-import Navbar from "./NavBar";
+import {NavLink ,Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import Posts from "./Posts";
@@ -8,68 +7,33 @@ import Logout from "./Logout";
 import Albums from "./Albums";
 import Todos from "./Todos";
 import Info from "./Info";
-// import Comments from "./Comments";/
 
-function HomePage(){
+const HomePage = ({ userName }) => {
+  return (
+    <div>
+      <h2>Welcome to the Homepage, {userName}!</h2>
+      <div>
+        <navbar className='navbar'>
+          {/* <NavLink to="/HomePage">HomePage </NavLink> */}
+          <NavLink to="/Logout">Logout </NavLink>
+          <NavLink to="/Albums">Albums </NavLink>
+          <NavLink to="/Todos">Todos </NavLink>
+          <NavLink to="/Posts">Posts </NavLink>
+          <NavLink to="/Info">Info </NavLink>
+        </navbar>
 
-    const [data, setData] = useState('');
-
-    async function postsClick(){
-    
-        let data_list = await fetch('https://jsonplaceholder.typicode.com/posts');
-        let data_list_json = data_list.json();
-        setData(data_list_json);
-        console.log("data_list_json:  ", data_list_json);
-        console.log("data:  ", data);
-    }
-
-    useEffect(() => {
-        postsClick()
-    }, [])
-
-
-
-    // fetch('https://jsonplaceholder.typicode.com/comments', {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //         name: 'Comment 105',
-    //         email: 'dylansemail310@gmail.com',
-    //         body: 'Dopes comment in the game',
-    //         postId: 1
-    //     })
-    // })
-    // .then((response) => response.json())
-    // .then((data) => console.log(data))
-
-    
-    return ( 
-        <>
-        <Navbar></Navbar>  
-          <section className="section">
-            <Outlet/>
-          </section>
         <Routes>
-            {/* <Route path="/comments" element={<Comments />}/> */}
-            <Route path="/albums" element={<Albums />}/>            
-            <Route path="/posts" element={<Posts />}/>
-            <Route path="/posts/:id" element={<Posts />} /> 
-            <Route path="/todos" element={<Todos />}/>
-            {/* <Route path="/users" element={<Users />}/> */}
-            <Route path="/todos" element={<Todos />}/>
+          {/* <Route path="/HomePage" element={<HomePage userName={username} />} /> */}
+          <Route path="/Logout" element={<Logout />} />
+          <Route path="/Albums" element={<Albums />} />
+          <Route path="/Albums/:id" element={<Albums />} />
+          <Route path="/Todos" element={<Todos />} />
+          <Route path="/Posts" element={<Posts />} />
+          <Route path="/Info" element={<Info />} />
         </Routes>
-
-
-            {/* Links */}
-            <br/><Link to="/Logout">Logout</Link>
-            <br/><Link to="/Albums">Albums</Link>            
-            <br/><Link to="/Posts" onClick={() =>postsClick()}>Posts</Link>
-            <br/><Link to="/Todos">Todos</Link>
-            <br/><Link to="/Info">Info</Link>
-
-
-        </>
-    )
+      </div>
+    </div>
+  );
 };
 
 export default HomePage;
-

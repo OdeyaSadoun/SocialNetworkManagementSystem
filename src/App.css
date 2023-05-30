@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.navbar {
+  display: flex; /* Use flexbox */
+}
+
+.navbar NavLink {
+  display: inline-block;
+  padding: 10px; /* Add padding around the navigation links */
+  text-decoration: none; /* Remove underline from links */
+}

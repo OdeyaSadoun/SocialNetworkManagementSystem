@@ -1,183 +1,80 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useEffect } from 'react';
-import {Navigate,useNavigate}from "react-router-dom"
+import { Navigate, useNavigate, Routes, NavLink } from "react-router-dom";
+import HomePage from './HomePage';
+import Albums from './Albums';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Todos from './Todos';
+import Posts from './Posts';
+import Info from './Info';
+import Logout from './Logout';
 
-function Login () {
-  const [userName, setUserName] = useState('');
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLogin, setIsLoggedIn] = useState(false);
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    const username = document.getElementById('user-name').value;
-    const email = document.getElementById('email').value;
-    const pwd = document.getElementById('pwd').value;
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const users = await response.json();
+      const foundUser = users.find(user => user.username === username);
 
-    let formData = JSON.parse(localStorage.getItem('formData')) || [];
-
-    let exist =
-      formData.length &&
-      JSON.parse(localStorage.getItem('formData')).some(
-        (data) =>
-          data.username.toLowerCase() === username.toLowerCase() &&
-          data.pwd === pwd
-      );
-
-    if (!exist) {
-      formData.push({
-        username,
-        email,
-        pwd,
-        scoreX: 0,
-        scoreO: 0,
-        scoreDraw: 0,
-        scoreScaling: 0,
-      });
-      localStorage.setItem('formData', JSON.stringify(formData));
-      document.querySelector('form').reset();
-      document.getElementById('user-name').focus();
-      alert('Account Created.\n\nPlease Sign In.');
-    } else {
-      alert('Ooopppssss... Duplicate found!!!\nYou have already signed up');
-    }
-  };
-
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    const username = document.getElementById('userName').value;
-    const pwd = document.getElementById('pswd').value;
-
-    let formData = JSON.parse(localStorage.getItem('formData')) || [];
-
-    let exist =
-      formData.length &&
-      JSON.parse(localStorage.getItem('formData')).some(
-        (data) =>
-          data.username.toLowerCase() === username.toLowerCase() &&
-          data.pwd === pwd
-      );
-
-    if (!exist) {
-      alert('Invalid Username or Password');
-      handleIncorrectLogin(username);
-    } else {
-      let d = new Date();
-      d.setTime(d.getTime() + 10 * 60 * 1000);
-      let expires = 'expires=' + d.toUTCString();
-      document.cookie = 'currentUser=' + username + ';' + expires + ';path=/';
-      localStorage.setItem('currentUser', JSON.stringify(username));
-      // Redirect to the home page
-      window.location.href = './HomePage.jsx';
-    }
-  };
-
-  const handleIncorrectLogin = (username) => {
-    let incorrectLogin = JSON.parse(localStorage.getItem('incorrectLogin')) || [];
-    let exist =
-      incorrectLogin.length &&
-      JSON.parse(localStorage.getItem('incorrectLogin')).some(
-        (data) => data.username.toLowerCase() === username.toLowerCase()
-      );
-
-    if (!exist) {
-      incorrectLogin.push({ username, count: 1 });
-      localStorage.setItem('incorrectLogin', JSON.stringify(incorrectLogin));
-    } else {
-      let index = incorrectLogin.findIndex(
-        (data) => data.username.toLowerCase() === username.toLowerCase()
-      );
-      incorrectLogin[index].count += 1;
-      localStorage.setItem('incorrectLogin', JSON.stringify(incorrectLogin));
-    }
-
-    let index = incorrectLogin.findIndex(
-      (data) => data.username.toLowerCase() === username.toLowerCase()
-    );
-    if (incorrectLogin[index].count >= 3) {
-      let time = 3;
-      let interval = setInterval(() => {
-        document.getElementById('userName').disabled = true;
-        document.getElementById('pswd').disabled = true;
-        document.getElementById('signInBtn').disabled = true;
-        document.getElementById('signInBtn').style.backgroundColor = 'rgba(256, 256, 256, 0.5)';
-        document.getElementById('signInBtn').innerText = `Please wait ${time} seconds`;
-        document.getElementById('signInBtn').style.color = '#f4157e';
-        time--;
-        if (time < 0) {
-          document.getElementById('userName').disabled = false;
-          document.getElementById('pswd').disabled = false;
-          document.getElementById('signInBtn').disabled = false;
-          document.getElementById('signInBtn').style.backgroundColor = '#f4157e';
-          document.getElementById('signInBtn').innerText = `Sign In`;
-          document.getElementById('signInBtn').style.color = '#fff';
-          clearInterval(interval);
+      if (foundUser) {
+        const lastFourDigits = foundUser.address.geo.lat.slice(-4);
+        if (password === lastFourDigits) {
+          // Authorized user, perform login actions here
+          console.log('User logged in successfully!');
+          setIsLoggedIn(true);
+          // localStorage.setItem("username", JSON.stringify(username));
+          localStorage.setItem('currentUser', JSON.stringify(username));
+        } else {
+          setErrorMessage('Invalid password');
         }
-      }, 1000);
+      } else {
+        setErrorMessage('User not found');
+      }
+    } catch (error) {
+      console.error('Error occurred during login:', error);
+      setErrorMessage('An error occurred. Please try again later.');
     }
   };
 
-
-  const handleSignInLinkClick = () => {
-    document.querySelector('.wrapper').classList.toggle('active');
-  };
-  const navigate=useNavigate()
-  useEffect(()=>{
-  setTimeout(()=>{
-    navigate("/")
-  },10000)
-  },[])
-  return (
-    <div className="wrapper">
-      <div id="sign-in" className="form-wrapper sign-in">
-        <form action="" role="form" onSubmit={handleSignIn} autoComplete="off">
+  if (isLogin) {
+    return (
+      <HomePage userName={username}/>
+    );
+  } else {
+    return (
+      <>
+        <div>
           <h2>Login</h2>
-          <div className="input-group">
-            <input type="text" id="userName" required />
-            <label htmlFor="">username</label>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={event => setUsername(event.target.value)}
+            />
           </div>
-          <div className="input-group">
-            <input type="password" id="pswd" required />
-            <label htmlFor="">password</label>
-          </div>
-          <div className="remember">
-            <label>
-              <input type="checkbox" /> Remember user
-            </label>
-          </div>
-          <button id="signInBtn" type="submit">
-            login
-          </button>
-          
-        </form>
-      </div>
-
-      <div className="form-wrapper sign-up">
-        <form action="" role="form" onSubmit={handleSignUp} id="signUpForm">
-          <h2>הרשמה</h2>
-          <div className="input-group">
-            <input type="text" id="user-name" required />
-            <label htmlFor="">שם משתמש</label>
-          </div>
-          <div className="input-group">
-            <input type="email" id="email" required />
-            <label htmlFor="">אמייל</label>
-          </div>
-          <div className="input-group">
-            <input type="password" id="pwd" required />
-            <label htmlFor="">סיסמא</label>
-          </div>
-          <button type="submit">הירשם</button>
-          <div className="signUp-link">
-            <p>
-              יש לך כבר חשבון?{' '}
-              <a href="#" className="signInBtn-link" onClick={handleSignInLinkClick}>
-                Login
-              </a>
-            </p>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={event => setPassword(event.target.value)}
+          />
+        </div>
+        <button onClick={handleLogin}> Login</button>
+        {errorMessage && <p>{errorMessage}</p>}
+      </>
+    );
+  }
 };
 
 export default Login;
