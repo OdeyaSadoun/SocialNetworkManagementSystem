@@ -15,7 +15,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLogin, setIsLoggedIn] = useState(false);
-
+  const [userId, setUserId] = useState(null);
   const handleLogin = async () => {
     try {
       const response = await fetch('https://jsonplaceholder.typicode.com/users');
@@ -28,6 +28,7 @@ function Login() {
           // Authorized user, perform login actions here
           console.log('User logged in successfully!');
           setIsLoggedIn(true);
+          setUserId(foundUser.id); // Set the userId state variable
           // localStorage.setItem("username", JSON.stringify(username));
           localStorage.setItem('currentUser', JSON.stringify(username));
         } else {
@@ -44,7 +45,11 @@ function Login() {
 
   if (isLogin) {
     return (
-      <HomePage userName={username}/>
+      <>
+      <HomePage userName={username} />
+      <Todos userId={userId} />
+    
+      </>
     );
   } else {
     return (
