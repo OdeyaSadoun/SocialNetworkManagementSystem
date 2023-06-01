@@ -2,32 +2,32 @@ import React from "react";
 import {Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function Posts(){
+function Posts({userId}){
 
     const [data, setData] = useState('');
-    let userId = 1;
+    const [posts, setPosts] = useState([]);
+    // let userId = ;
     let list = [];
-    // const [list, setPosts] = useState([]);
-
-    async function getId(){
-        const username = JSON.parse(localStorage.getItem("username"));
-        userId = await fetch(`https://jsonplaceholder.typicode.com/users?username=${username}`)
-                        .then((response) => response.json());
-            console.log(userId);
-    }
-
-    async function postsClick(){
-    
-        let data_list = await fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${userId}`)
-                                .then((response) => response.json());
-        setData(data_list);
-        console.log("data_list:  ", data_list);
-        list = data_list;
-        console.log("data:  ", data);
-    }
-
     useEffect(() => {
+        
+        async function postsClick(){
+        
+            let posts = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}/posts`)
+                                    .then((response) => response.json());
+            console.log(posts);
+            setPosts(posts);
+            
+            
+
+            // if(response.ok==false)
+            // {
+            //     throw new Error("Error!");
+            // }
+        }
+
+            
         postsClick()
+    
     }, [])
 
 

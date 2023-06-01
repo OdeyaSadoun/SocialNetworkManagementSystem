@@ -1,6 +1,5 @@
 import Login from './components/Login';
-import Logout from './components/Logout';
-import { useState } from 'react';
+import { useState, Component } from 'react';
 import "./styles.css"
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
@@ -21,7 +20,6 @@ function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("usename");
   };
 
 
@@ -34,12 +32,11 @@ function App() {
         {isLoggedIn ? (
           <div>
             <h2>Welcome, User!</h2>
-            <Logout onLogout={handleLogout} />
+            <Login onLogout={handleLogout} />
             <h2>Please login</h2>
             {/* <Link to="/login">Login</Link> */}
             <Routes>
               <Route path="/HomePage"  />
-              <Route path="/Logout" element={<Logout />} />
               <Route path="/Albums" element={<Albums />} />
               <Route path="/Albums/:id" element={<Albums />} />
               <Route path="/Todos" element={<Todos />} />

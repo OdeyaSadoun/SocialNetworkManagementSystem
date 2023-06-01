@@ -105,7 +105,7 @@ button {
   height: 40px;
   background:  #00aeff;
   font-size: 16px;
-  color:  #00aeff;
+  /* color:  #00aeff; */
   cursor: pointer;
   border-radius: 30px;
   border: none;

@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
-import './Login.css';
-import { useEffect } from 'react';
-import { Navigate, useNavigate, Routes, NavLink } from "react-router-dom";
+import React, { useState, Component } from 'react';
+import "./Login.css"
 import HomePage from './HomePage';
-import Albums from './Albums';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Todos from './Todos';
-import Posts from './Posts';
-import Info from './Info';
-import Logout from './Logout';
 
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isLogin, setIsLoggedIn] = useState(false);
+const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [userId, setUserId] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -28,8 +22,10 @@ function Login() {
           // Authorized user, perform login actions here
           console.log('User logged in successfully!');
           setIsLoggedIn(true);
-          // localStorage.setItem("username", JSON.stringify(username));
-          localStorage.setItem('currentUser', JSON.stringify(username));
+          setName(users[0].name);
+          setUserId(users[0].id);
+          localStorage.setItem("username", JSON.stringify(username));
+
         } else {
           setErrorMessage('Invalid password');
         }
@@ -42,24 +38,38 @@ function Login() {
     }
   };
 
-  if (isLogin) {
+  const handleLogout = () => {    
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    setUsername("");
+    setPassword("");
+    setName("");
+    setUserId(0);
+    setErrorMessage("");
+    navigate("./Login");
+
+  };
+
+  if (isLoggedIn) {
     return (
-      <HomePage userName={username}/>
+      <div>
+        <h2>Welcome, {username}!</h2>
+        <HomePage userName={userId}/>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     );
   } else {
     return (
-      <>
+      <div>
+        <h2>Login</h2>
         <div>
-          <h2>Login</h2>
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={event => setUsername(event.target.value)}
-            />
-          </div>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={event => setUsername(event.target.value)}
+          />
         </div>
         <div>
           <label htmlFor="password">Password:</label>
@@ -70,9 +80,9 @@ function Login() {
             onChange={event => setPassword(event.target.value)}
           />
         </div>
-        <button onClick={handleLogin}> Login</button>
+        <button onClick={handleLogin}>Login</button>
         {errorMessage && <p>{errorMessage}</p>}
-      </>
+      </div>
     );
   }
 };
