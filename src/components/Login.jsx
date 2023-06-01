@@ -2,6 +2,7 @@ import React, { useState, Component } from 'react';
 import "./Login.css"
 import HomePage from './HomePage';
 import Todos from './Todos';
+import Albums from './Albums';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -57,6 +58,7 @@ function Login() {
         <h2>Welcome, {username}!</h2>
         <HomePage userName={userId}/>
         <Todos userId={userId} />
+        <Albums userId={userId} />
         <button onClick={handleLogout}>Logout</button>
       </div>    );
   } else {
