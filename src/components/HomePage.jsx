@@ -9,19 +9,18 @@ import "./HomePage.css"
 const HomePage = ({ userId }) => {
   return (
     <div>
-      <navbar className="navbar">
-        {/* <NavLink to="/Logout">Logout </NavLink> */}
-        <NavLink to="/Albums">Albums </NavLink>
-        <NavLink to="/Todos">Todos </NavLink>
-        <NavLink to="/Posts">Posts </NavLink>
-        <NavLink to="/Info">Info </NavLink>
-      </navbar>
+      <nav className="navbar">
+        <NavLink className={"NavLink"} to="/Albums">Albums  </NavLink>
+        <NavLink className={"NavLink"} to="/Todos">Todos  </NavLink>
+        <NavLink className={"NavLink"} to="/Posts">Posts  </NavLink>
+        <NavLink className={"NavLink"} to="/Info">Info  </NavLink>
+      </nav>
 
       <Routes>
-        {/* <Route path="/Logout" element={<Logout />} /> */}
+        <Route path="./"/>
         <Route path="/Albums" element={<Albums />} />
-        <Route path="/Albums/:id" element={<Albums />} />
-        <Route path="/Todos" element={<Todos />} />
+        {/* <Route path="/Albums/:id/photos" element={<Photos />} /> */}
+        <Route path="/Todos" element={<Todos userId={userId}  />} />
         <Route path="/Posts" element={<Posts {...userId} />} />
         <Route path="/Info" element={<Info />} />
       </Routes>

@@ -1,6 +1,7 @@
 
-#navbar NavLink{
+.navbar .NavLink{
+    display: inline-block;
     color:blue;
-    font-size: 10px;
+    font-size: 30px;
     align-items: center;
 }
