@@ -6,7 +6,7 @@ import Todos from "./Todos";
 import Info from "./Info";
 import "./HomePage.css"
 
-const HomePage = ({ userId }) => {
+const HomePage = ({ username, userId }) => {
   return (
     <div>
       <nav className="navbar">
@@ -22,7 +22,7 @@ const HomePage = ({ userId }) => {
         {/* <Route path="/Albums/:id/photos" element={<Photos />} /> */}
         <Route path="/Todos" element={<Todos userId={userId}  />} />
         <Route path="/Posts" element={<Posts {...userId} />} />
-        <Route path="/Info" element={<Info />} />
+        <Route path="/Info" element={<Info userName={username}/>} />
       </Routes>
     </div>
   );

@@ -55,7 +55,7 @@ function Login() {
     return (
 <div>
         <h2>Welcome, {username}!</h2>
-        <HomePage userName={userId}/>
+        <HomePage userName={username} UserId={userId}/>
         <Todos userId={userId} />
         <button onClick={handleLogout}>Logout</button>
       </div>    );
