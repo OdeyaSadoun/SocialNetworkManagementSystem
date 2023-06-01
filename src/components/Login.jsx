@@ -2,12 +2,12 @@ import React, { useState, Component } from 'react';
 import "./Login.css"
 import HomePage from './HomePage';
 
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [name, setName] = useState("");
   const [userId, setUserId] = useState(0);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = async () => {
@@ -52,12 +52,12 @@ const Login = () => {
 
   if (isLoggedIn) {
     return (
-      <div>
+<div>
         <h2>Welcome, {username}!</h2>
         <HomePage userName={userId}/>
+        <Todos userId={userId} />
         <button onClick={handleLogout}>Logout</button>
-      </div>
-    );
+      </div>    );
   } else {
     return (
       <div>

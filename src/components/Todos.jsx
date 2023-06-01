@@ -1,40 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const todosData = [
-  {
-    id: 1,
-    text: "Take out the trash",
-    completed: true
-  },
-  {
-    id: 2,
-    text: "Grocery shopping",
-    completed: false
-  },
-  {
-    id: 3,
-    text: "Clean gecko tank",
-    completed: false
-  },
-  {
-    id: 4,
-    text: "Mow lawn",
-    completed: true
-  },
-  {
-    id: 5,
-    text: "Catch up on Arrested Development",
-    completed: false
-  }
-];
-
-function Todos() {
-  const [items, setItems] = useState(todosData);
+function Todos({ userId }) {
+  const [items, setItems] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("");
-
+// Fetch todos based on userId
+  const fetchTodos = async () => {
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
+      const data = await response.json();
+      setItems(data);
+    } catch (error) {
+      console.log("Error fetching todos:", error);
+    }
+  };
+  
+  useEffect(() => { 
+  // Fetch todos when userId changes
+    if (userId) {
+      fetchTodos();
+    }
+  }, [userId]);
+  
+ // Toggle completion status of an item
   const toggleItemCompletion = (id) => {
-    setItems(prevItems =>
-      prevItems.map(item => {
+    setItems((prevItems) =>
+      prevItems.map((item) => {
         if (item.id === id) {
           return { ...item, completed: !item.completed };
         }
@@ -42,12 +32,12 @@ function Todos() {
       })
     );
   };
-
+// handles the change event of the sorting criteria select element
   const handleSortingCriteriaChange = (e) => {
     setSortingCriteria(e.target.value);
     sortItems(e.target.value);
   };
-
+// Sort items based on the selected criteria
   const sortItems = (criteria) => {
     let sortedItems = [...items];
     switch (criteria) {
@@ -58,7 +48,7 @@ function Todos() {
         sortedItems.sort((a, b) => a.completed - b.completed);
         break;
       case "alphabetical":
-        sortedItems.sort((a, b) => a.text.localeCompare(b.text));
+        sortedItems.sort((a, b) => a.title.localeCompare(b.title));
         break;
       case "random":
         sortedItems.sort(() => Math.random() - 0.5);
@@ -72,7 +62,7 @@ function Todos() {
   const completedStyle = {
     textDecoration: "line-through",
     color: "#5a5a63",
-    fontStyle: "italic"
+    fontStyle: "italic",
   };
 
   return (
@@ -93,17 +83,18 @@ function Todos() {
         </select>
       </div>
       <ul style={{ listStyleType: "none" }}>
-        {items.map(item => (
-          <li key={item.id} style={{ display: "flex", alignItems: "center" }}>
+        {items.map((item) => (
+          <li
+            key={item.id}
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <input
               type="checkbox"
               checked={item.completed}
               onChange={() => toggleItemCompletion(item.id)}
               style={{ marginRight: "10px" }}
             />
-            <p style={item.completed ? completedStyle : null}>
-              {item.text}
-            </p>
+            <p style={item.completed ? completedStyle : null}>{item.title}</p>
           </li>
         ))}
       </ul>
