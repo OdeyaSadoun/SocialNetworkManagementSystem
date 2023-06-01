@@ -5,6 +5,7 @@ import Albums from "./Albums";
 import Todos from "./Todos";
 import Info from "./Info";
 import "./HomePage.css"
+import Photos from "./Photos"
 
 const HomePage = ({ username, userId }) => {
   return (
@@ -17,12 +18,14 @@ const HomePage = ({ username, userId }) => {
       </nav>
 
       <Routes>
-        <Route path="./"/>
+        <Route path="/" element={<HomePage />} />
         <Route path="/Albums" element={<Albums />} />
         {/* <Route path="/Albums/:id/photos" element={<Photos />} /> */}
         <Route path="/Todos" element={<Todos userId={userId}  />} />
         <Route path="/Posts" element={<Posts {...userId} />} />
         <Route path="/Info" element={<Info userName={username}/>} />
+        <Route path="/Albums/:id" element={<Photos />} />
+
       </Routes>
     </div>
   );
