@@ -41,7 +41,7 @@ function App() {
               <Route path="/Albums/:id" element={<Albums />} />
               <Route path="/Todos" element={<Todos />} />
               <Route path="/Posts" element={<Posts />} />
-              <Route path="/Info" element={<Info />} />
+              <Route path="/Info" element={<Info userId={userId}/>} />
             </Routes>
           </div>
         ) : (
