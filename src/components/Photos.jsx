@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function Albums({ userId }) {
+
+function Photos({ userId }) {
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
@@ -36,4 +37,4 @@ function Albums({ userId }) {
   );
 }
 
-export default Albums;
+export default Photos;

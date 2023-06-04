@@ -3,18 +3,27 @@ import "./Login.css"
 import HomePage from './HomePage';
 import Todos from './Todos';
 import Albums from './Albums';
+import Info from './Info';
+import Photos from './Photos';
+import Posts from './Posts';
+import { Routes, Route, NavLink ,useNavigate, Link } from 'react-router-dom';
 
-function Login() {
+
+function Login(props) {
+  console.log("I'm in Login");
+  console.log(props);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState("");
   const [userId, setUserId] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const response = await fetch(`https://jsonplaceholder.typicode.com/users?username=${username}`);
       const users = await response.json();
       const foundUser = users.find(user => user.username === username);
 
@@ -26,7 +35,11 @@ function Login() {
           setIsLoggedIn(true);
           setName(users[0].name);
           setUserId(users[0].id);
+          props.setUserInfo(users[0]);
           localStorage.setItem("username", JSON.stringify(username));
+          localStorage.setItem("userId", JSON.stringify(users[0].id));
+
+          navigate(`/${users[0].id}`);
 
         } else {
           setErrorMessage('Invalid password');
@@ -54,11 +67,7 @@ function Login() {
 
   if (isLoggedIn) {
     return (
-<div>
-        <h2>Welcome, {username}!</h2>
-        <HomePage userName={username} UserId={userId}/>
-        <Todos userId={userId} />
-        <Albums userId={userId} />
+      <div>
         <button onClick={handleLogout}>Logout</button>
       </div>    );
   } else {
