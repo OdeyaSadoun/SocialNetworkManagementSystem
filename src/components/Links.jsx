@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link ,Outlet} from "react-router-dom";
 import { userContext } from "../App";
 import { useContext } from "react";
 
@@ -16,6 +16,7 @@ function Links(){
           <Link className={"NavLink"} to={`/${userId}/Info`}>Info  </Link>
         </nav>
         </div>
+        <Outlet/>
         </>
     )
 }
