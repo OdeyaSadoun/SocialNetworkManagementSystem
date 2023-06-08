@@ -1,9 +1,11 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import { useState, useEffect } from "react";
+import { userContext } from "../App";
+import { useContext } from "react";
 
-function Posts({userId}){
+function Posts(){
 
+    const userId = useContext(userContext).id;
     const [data, setData] = useState('');
     const [posts, setPosts] = useState([]);
     // let userId = ;
@@ -16,13 +18,7 @@ function Posts({userId}){
                                     .then((response) => response.json());
             console.log(posts);
             setPosts(posts);
-            
-            
-
-            // if(response.ok==false)
-            // {
-            //     throw new Error("Error!");
-            // }
+        
         }
 
             

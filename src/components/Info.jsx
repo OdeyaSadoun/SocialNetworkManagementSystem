@@ -1,26 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { userContext } from "../App";
+import { useContext } from "react";
 
-
-const Info = ({userId}) => {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    const userInfo = async () => {
-      try {
-        const response = await fetch(`https://jsonplaceholder.typicode.com/users?userId=${userId}`);
-        const userData = await response.json();
-        setUser(userData);
-      } 
-      
-        catch (error) {
-        console.error('Error fetching user:', error);
-        setUser({});
-      }
-    };
-    
-    userInfo();
-  }, [userId]);
-
+const Info = () => {
+  const user = useContext(userContext);
 
   return (
     <div>

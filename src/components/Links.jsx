@@ -2,20 +2,22 @@ import { Link ,Outlet} from "react-router-dom";
 import { userContext } from "../App";
 import { useContext } from "react";
 
-function Links(){
+function Links(props){
     const userId = useContext(userContext).id;
-    console.log( useContext(userContext));
+    const user = useContext(userContext);
 
     return(
         <>
         <div>
+        <h2>Hello, {user.username}!</h2>
         <nav className="navbar">
           <Link className={"NavLink"} to={`/${userId}/Albums`}>Albums  </Link>
-          <Link className={"NavLink"} to={`/${userId}/Todos`}>Todos  </Link>
-          <Link className={"NavLink"} to={`/${userId}/Posts`}>Posts  </Link>
-          <Link className={"NavLink"} to={`/${userId}/Info`}>Info  </Link>
+          <br/><Link className={"NavLink"} to={`/${userId}/Todos`}>Todos  </Link>
+          <br/><Link className={"NavLink"} to={`/${userId}/Posts`}>Posts  </Link>
+          <br/><Link className={"NavLink"} to={`/${userId}/Info`}>Info  </Link>
         </nav>
         </div>
+        <button onClick={props.handleLogout}>Logout</button>
         <Outlet/>
         </>
     )

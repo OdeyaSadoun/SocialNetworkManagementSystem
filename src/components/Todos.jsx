@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { userContext } from "../App";
+import { useContext } from "react";
 
-function Todos({ userId }) {
+function Todos() {
+
+  const userId = useContext(userContext).id;
   const [items, setItems] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("");
-// Fetch todos based on userId
+
   const fetchTodos = async () => {
     try {
       const response = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
@@ -19,7 +23,7 @@ function Todos({ userId }) {
     if (userId) {
       fetchTodos();
     }
-  }, [userId]);
+  }, []);
   
  // Toggle completion status of an item
   const toggleItemCompletion = (id) => {
@@ -32,11 +36,13 @@ function Todos({ userId }) {
       })
     );
   };
+
 // handles the change event of the sorting criteria select element
   const handleSortingCriteriaChange = (e) => {
     setSortingCriteria(e.target.value);
     sortItems(e.target.value);
   };
+  
 // Sort items based on the selected criteria
   const sortItems = (criteria) => {
     let sortedItems = [...items];

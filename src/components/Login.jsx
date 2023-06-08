@@ -1,21 +1,11 @@
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import "./Login.css"
-import HomePage from './HomePage';
-import Todos from './Todos';
-import Albums from './Albums';
-import Info from './Info';
-import Photos from './Photos';
-import Posts from './Posts';
-import { Routes, Route, NavLink ,useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login(props) {
-  console.log("I'm in Login");
-  console.log(props);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState("");
-  const [userId, setUserId] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -33,11 +23,7 @@ function Login(props) {
           // Authorized user, perform login actions here
           console.log('User logged in successfully!');
           setIsLoggedIn(true);
-          setName(users[0].name);
-          setUserId(users[0].id);
           props.setUserInfo(users[0]);
-          localStorage.setItem("username", JSON.stringify(username));
-          localStorage.setItem("userId", JSON.stringify(users[0].id));
 
           navigate(`/${users[0].id}`);
 
@@ -53,24 +39,6 @@ function Login(props) {
     }
   };
 
-  const handleLogout = () => {    
-    localStorage.removeItem("username");
-    setIsLoggedIn(false);
-    setUsername("");
-    setPassword("");
-    setName("");
-    setUserId(0);
-    setErrorMessage("");
-    navigate("./Login");
-
-  };
-
-  if (isLoggedIn) {
-    return (
-      <div>
-        <button onClick={handleLogout}>Logout</button>
-      </div>    );
-  } else {
     return (
       <div>
         <h2>Login</h2>
@@ -96,7 +64,6 @@ function Login(props) {
         {errorMessage && <p>{errorMessage}</p>}
       </div>
     );
-  }
 };
 
 export default Login;

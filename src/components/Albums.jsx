@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { userContext } from "../App";
+import { useContext } from "react";
 
+function Albums() {
 
-function Albums({ userId }) {
+  const userId = useContext(userContext).id;
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
@@ -19,7 +22,7 @@ function Albums({ userId }) {
     if (userId) {
       fetchAlbums();
     }
-  }, [userId]);
+  }, []);
 
   return (
     <>
@@ -27,7 +30,7 @@ function Albums({ userId }) {
       {albums.length > 0 ? (
         albums.map(album => (
           <div key={album.id}>
-            <Link to={`/Albums/${album.id}`}>{album.title}</Link>
+            <Link to={`/${userId}/Albums/${album.id}/Photos`}>{album.title}</Link>
           </div>
         ))
       ) : (
