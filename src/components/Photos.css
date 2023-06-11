@@ -1,0 +1,16 @@
+.photos-container {
+    overflow-y: scroll;
+    height: 400px; /* Set an appropriate height for your container */
+  }
+  
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+  }
+  
+  .photo-grid img {
+    width: 100%;
+    height: auto;
+  }
+  

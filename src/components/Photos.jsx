@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import "./photos.css"; // Import the CSS file
 
 function Photos() {
   const params = useParams();
@@ -32,15 +33,23 @@ function Photos() {
   return (
     <>
       <h1>Photos</h1>
-      {photosList.length > 0 ? (
-        photosList.map((photo) => (
-          <div key={photo.id}>
-            <img src={photo.thumbnailUrl} alt={photo.title} key={photo.id} />
+      <div className="photos-container">
+        {photosList.length > 0 ? (
+          <div className="photo-grid">
+            {photosList.map((photo) => (
+              <div key={photo.id}>
+                <img
+                  src={photo.thumbnailUrl}
+                  alt={photo.title}
+                  key={photo.id}
+                />
+              </div>
+            ))}
           </div>
-        ))
-      ) : (
-        <p>No photos found for the album.</p>
-      )}
+        ) : (
+          <p>No photos found for the album.</p>
+        )}
+      </div>
       <button onClick={loadMore}>Load more</button>
     </>
   );
