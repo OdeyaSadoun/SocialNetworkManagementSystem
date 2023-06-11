@@ -6,6 +6,7 @@ import {
   Route,
   Routes,
   BrowserRouter,
+  Navigate,
 } from "react-router-dom";
 import Albums from "./components/Albums";
 import Todos from "./components/Todos";
@@ -22,12 +23,17 @@ function App() {
     setUserInfo({});
     window.location.replace("/");
   };
+
   return (
     <div>
       <userContext.Provider value={userInfo}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login setUserInfo={setUserInfo} />} />
+            <Route path="/" element={<Navigate to="/Login" />} />
+            <Route
+              path="/Login"
+              element={<Login setUserInfo={setUserInfo} />}
+            />
             <Route path="/:id" element={<Links handleLogout={handleLogout} />}>
               <Route path="/:id/Todos" element={<Todos />} />
               <Route path="/:id/Posts" element={<Posts />} />
@@ -45,5 +51,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

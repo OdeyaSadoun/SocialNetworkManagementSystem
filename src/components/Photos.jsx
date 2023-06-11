@@ -12,21 +12,22 @@ function Photos() {
         `https://jsonplaceholder.typicode.com/photos?albumId=${params.albumId}&_limit=10&_start=${counter}`
       );
       const data = await response.json();
-      setPhotosList(prev=> [...prev, ...data]);
+      setPhotosList((prev) => [...prev, ...data]);
     } catch (error) {
       console.log("Error fetching albums:", error);
     }
   };
 
   useEffect(() => {
-    
     if (params.id) {
       fetchPhotos();
     }
   }, [counter]);
 
-  const loadMore = ()=> {setCounter(prev=> prev+10);
-      console.log("load more");}
+  const loadMore = () => {
+    setCounter((prev) => prev + 10);
+    console.log("load more");
+  };
 
   return (
     <>
@@ -34,7 +35,7 @@ function Photos() {
       {photosList.length > 0 ? (
         photosList.map((photo) => (
           <div key={photo.id}>
-            <img src={photo.thumbnailUrl} alt={photo.title} key={photo.id}/>
+            <img src={photo.thumbnailUrl} alt={photo.title} key={photo.id} />
           </div>
         ))
       ) : (
