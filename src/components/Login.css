@@ -6,8 +6,22 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
+.navbar {
+  background-color: #e7e0e0;
+  display: flex;
+  justify-content: flex-start; /* Aligns menu items to the left */
+  padding: 15px;
+}
+.NavLink {
+  color: #1f94d8;
+  text-decoration: none;
+  margin-right: 100px;
+}
 body {
+  height: 100vh; /* Sets the body height to 100% of the viewport height */
+  width: 100%; /* Sets the body width to 100% */
+  margin: 0; /* Removes any default margin */
+  padding: 0; /* Removes any default padding */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,9 +33,9 @@ body {
   position: relative;
   width: 400px;
   height: 500px;
-  background: rgba(255, 255, 255, .2);
+  background: rgba(247, 233, 233, 0.2);
   border-radius: 20px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, .1);
+  box-shadow: 0 0 50px rgba(228, 6, 6, 0.1);
   padding: 40px;
 }
 

@@ -13,18 +13,15 @@ import Posts from "./components/Posts";
 import Info from "./components/Info";
 import Links from "./components/Links";
 import Photos from "./components/Photos";
-
+import Comments from "./components/Comments";
 export const userContext = React.createContext();
 
 function App() {
   const [userInfo, setUserInfo] = useState({});
-  
-  const handleLogout = () => {    
+  const handleLogout = () => {
     setUserInfo({});
     window.location.replace("/");
   };
-
-
   return (
     <div>
       <userContext.Provider value={userInfo}>
@@ -34,6 +31,10 @@ function App() {
             <Route path="/:id" element={<Links handleLogout={handleLogout} />}>
               <Route path="/:id/Todos" element={<Todos />} />
               <Route path="/:id/Posts" element={<Posts />} />
+              <Route
+                path="/:id/Posts/:postId/Comments"
+                element={<Comments />}
+              />
               <Route path="/:id/Info" element={<Info />} />
               <Route path="/:id/Albums" element={<Albums />} />
               <Route path="/:id/Albums/:albumId/Photos" element={<Photos />} />

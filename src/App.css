@@ -4,7 +4,12 @@
   padding: 2rem;
   text-align: center;
 }
-
+body {
+  height: 100vh; /* Sets the body height to 100% of the viewport height */
+  width: 100%; /* Sets the body width to 100% */
+  margin: 0; /* Removes any default margin */
+  padding: 0; /* Removes any default padding */
+}
 .logo {
   height: 6em;
   padding: 1.5em;

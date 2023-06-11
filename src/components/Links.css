@@ -1,0 +1,22 @@
+.navbar {
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .NavLink {
+    color: #000;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+  
+  .NavLink:hover {
+    text-decoration: underline;
+  }
+  body {
+    height: 100vh; /* Sets the body height to 100% of the viewport height */
+    width: 100%; /* Sets the body width to 100% */
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+  }
