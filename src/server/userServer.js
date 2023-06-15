@@ -42,7 +42,7 @@ app.get("/api/users/login", (req, res) => {
   // get user by username and password
   const { username, password } = req.query;
   connection.query(
-    "SELECT * FROM users WHERE username = ? AND password = ?",
+    "SELECT * FROM passwords WHERE username = ? AND password = ?",
     [username, password],
     (err, results) => {
       if (err) {
