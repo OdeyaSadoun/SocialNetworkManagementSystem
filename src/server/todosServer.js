@@ -15,12 +15,29 @@ app.get("/api/todos", (req, res) => {
   });
 });
 
-app.get("/api/todos/user/:userId", (req, res) => {
-  // get todos by user id
-  const userId = req.params.userId;
+// app.get("/api/todos/user/:userId", (req, res) => {
+//   // get todos by user id
+//   const userId = req.params.userId;
+//   connection.query(
+//     "SELECT * FROM todos WHERE userid = ?",
+//     [userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to retrieve tasks" });
+//         return;
+//       }
+//       res.json(results);
+//     }
+//   );
+// });
+
+app.get("/api/todos/user/:username", (req, res) => {
+  // get todos by user id - with the username in the url
+  const username = req.params.username;
   connection.query(
-    "SELECT * FROM todos WHERE userid = ?",
-    [userId],
+    "SELECT todos.* FROM todos JOIN users ON todos.userid = users.id WHERE users.username = ?",
+    [username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -32,12 +49,46 @@ app.get("/api/todos/user/:userId", (req, res) => {
   );
 });
 
-app.get("/api/todos/user/:userId/completed", (req, res) => {
-  // get completed todos of a specific user:
-  const userId = req.params.userId;
+// app.get("/api/todos/user/:userId/completed", (req, res) => {
+//   // get completed todos of a specific user:
+//   const userId = req.params.userId;
+//   connection.query(
+//     "SELECT * FROM todos WHERE userid = ? AND completed = true",
+//     [userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to retrieve completed todos" });
+//         return;
+//       }
+//       res.json(results);
+//     }
+//   );
+// });
+
+// app.get("/api/todos/user/:userId/incomplete", (req, res) => {
+//   // get incomplete todos of a specific user
+//   const userId = req.params.userId;
+//   connection.query(
+//     "SELECT * FROM todos WHERE userid = ? AND completed = false",
+//     [userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to retrieve incomplete todos" });
+//         return;
+//       }
+//       res.json(results);
+//     }
+//   );
+// });
+
+app.get("/api/todos/user/:username/completed", (req, res) => {
+  // get complete todos of a specific user - with the username in url
+  const username = req.params.username;
   connection.query(
-    "SELECT * FROM todos WHERE userid = ? AND completed = true",
-    [userId],
+    "SELECT todos.* FROM todos JOIN users ON todos.userid = users.id WHERE users.username = ? AND todos.completed = true",
+    [username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -49,12 +100,12 @@ app.get("/api/todos/user/:userId/completed", (req, res) => {
   );
 });
 
-app.get("/api/todos/user/:userId/incomplete", (req, res) => {
-  //get incomplete todos of a specific user:
-  const userId = req.params.userId;
+app.get("/api/todos/user/:username/incomplete", (req, res) => {
+  // get complete todos of a specific user - with the username in url
+  const username = req.params.username;
   connection.query(
-    "SELECT * FROM todos WHERE userid = ? AND completed = false",
-    [userId],
+    "SELECT todos.* FROM todos JOIN users ON todos.userid = users.id WHERE users.username = ? AND todos.completed = false",
+    [username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
