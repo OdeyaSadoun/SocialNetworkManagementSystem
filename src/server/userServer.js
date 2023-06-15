@@ -6,7 +6,7 @@ app.use(express.json());
 
 
 
-app.get("/api/users", (req, res) => {
+router.get("/api/users", (req, res) => {
   // get all users
   connection.query("SELECT * FROM users", (err, results) => {
     if (err) {
@@ -18,7 +18,7 @@ app.get("/api/users", (req, res) => {
   });
 });
 
-app.get("/api/users/:id", (req, res) => {
+router.get("/api/users/:id", (req, res) => {
   // get user by ID
   const userId = req.params.id;
   connection.query(
@@ -41,7 +41,7 @@ app.get("/api/users/:id", (req, res) => {
   );
 });
 
-app.get("/api/users/login", (req, res) => {
+router.get("/api/users/login", (req, res) => {
   // get user by username and password
   const { username, password } = req.query;
   connection.query(
@@ -64,7 +64,7 @@ app.get("/api/users/login", (req, res) => {
   );
 });
 
-app.post("/api/users", (req, res) => {
+router.post("/api/users", (req, res) => {
   // add a new user
   const { name, username, email, phone } = req.body;
   connection.query(
@@ -81,7 +81,7 @@ app.post("/api/users", (req, res) => {
   );
 });
 
-app.put("/api/users/:id/email", (req, res) => {
+router.put("/api/users/:id/email", (req, res) => {
   //update email to user
   const userId = req.params.id;
   const { email } = req.body;
@@ -100,7 +100,7 @@ app.put("/api/users/:id/email", (req, res) => {
   );
 });
 
-app.put("/api/users/:id/phone", (req, res) => {
+router.put("/api/users/:id/phone", (req, res) => {
   // update phone to user
   const userId = req.params.id;
   const { phone } = req.body;
@@ -119,7 +119,7 @@ app.put("/api/users/:id/phone", (req, res) => {
   );
 });
 
-app.put("/api/users/:id/name", (req, res) => {
+router.put("/api/users/:id/name", (req, res) => {
   // update name of user
   const userId = req.params.id;
   const { name } = req.body;
@@ -138,7 +138,7 @@ app.put("/api/users/:id/name", (req, res) => {
   );
 });
 
-app.put("/api/users/:id/password", (req, res) => {
+router.put("/api/users/:id/password", (req, res) => {
   // update password to user
   const userId = req.params.id;
   const { password } = req.body;

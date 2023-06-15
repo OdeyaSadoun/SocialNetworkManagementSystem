@@ -4,7 +4,7 @@ const router = express.Router();
 const app = express();
 app.use(express.json());
 
-app.get("/api/todos", (req, res) => {
+router.get("/api/todos", (req, res) => {
   // get all todos
   connection.query("SELECT * FROM todos", (err, results) => {
     if (err) {
@@ -33,7 +33,7 @@ app.get("/api/todos", (req, res) => {
 //   );
 // });
 
-app.get("/api/todos/user/:username", (req, res) => {
+router.get("/api/todos/user/:username", (req, res) => {
   // get todos by user id - with the username in the url
   const username = req.params.username;
   connection.query(
@@ -84,7 +84,7 @@ app.get("/api/todos/user/:username", (req, res) => {
 //   );
 // });
 
-app.get("/api/todos/user/:username/completed", (req, res) => {
+router.get("/api/todos/user/:username/completed", (req, res) => {
   // get complete todos of a specific user - with the username in url
   const username = req.params.username;
   connection.query(
@@ -101,7 +101,7 @@ app.get("/api/todos/user/:username/completed", (req, res) => {
   );
 });
 
-app.get("/api/todos/user/:username/incomplete", (req, res) => {
+router.get("/api/todos/user/:username/incomplete", (req, res) => {
   // get complete todos of a specific user - with the username in url
   const username = req.params.username;
   connection.query(
@@ -118,7 +118,7 @@ app.get("/api/todos/user/:username/incomplete", (req, res) => {
   );
 });
 
-app.post("/api/todos", (req, res) => {
+router.post("/api/todos", (req, res) => {
   //add new task to todos
   const { userid, title, completed } = req.body;
   connection.query(
@@ -138,7 +138,7 @@ app.post("/api/todos", (req, res) => {
   );
 });
 
-app.put("/api/todos/:taskId/completed", (req, res) => {
+router.put("/api/todos/:taskId/completed", (req, res) => {
   // update task completion status:
   const taskId = req.params.taskId;
   const { completed } = req.body;
@@ -158,7 +158,7 @@ app.put("/api/todos/:taskId/completed", (req, res) => {
   );
 });
 
-app.put("/api/todos/:todoId", (req, res) => {
+router.put("/api/todos/:todoId", (req, res) => {
   // update task content
   const taskId = req.params.taskId;
   const { title } = req.body;
@@ -176,7 +176,7 @@ app.put("/api/todos/:todoId", (req, res) => {
   );
 });
 
-app.delete("/api/todos/:taskId", (req, res) => {
+router.delete("/api/todos/:taskId", (req, res) => {
   // Deletion from the database will be performed when this task is not needed-
   // for example, a task that should not be performed at all.
   const taskId = req.params.taskId;
