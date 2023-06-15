@@ -3,16 +3,21 @@ const connection = require("./connection.js");
 const app = express();
 app.use(express.json());
 
-app.get("/api/comments", (req, res) => {
+app.get("/api/comments/:postId", (req, res) => {
   // get comments by post id
-  connection.query("SELECT * FROM comments", (err, results) => {
-    if (err) {
-      console.error("Error executing MySQL query:", err);
-      res.status(500).json({ error: "Failed to retrieve comments" });
-      return;
+  const postId = req.params.postId;
+  connection.query(
+    "SELECT * FROM comments WHERE postid = ?",
+    [postId],
+    (err, results) => {
+      if (err) {
+        console.error("Error executing MySQL query:", err);
+        res.status(500).json({ error: "Failed to retrieve comments" });
+        return;
+      }
+      res.json(results);
     }
-    res.json(results);
-  });
+  );
 });
 
 app.post("/api/comments", (req, res) => {
