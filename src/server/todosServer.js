@@ -1,5 +1,6 @@
 const express = require("express");
 const connection = require("./connection.js");
+const router = express.Router();
 const app = express();
 app.use(express.json());
 
@@ -193,8 +194,10 @@ app.delete("/api/todos/:taskId", (req, res) => {
   );
 });
 
-// Start the server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+// // Start the server
+// const port = 3000;
+// app.listen(port, () => {
+//   console.log(`Server listening on port ${port}`);
+// });
+
+module.exports = router;
