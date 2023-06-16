@@ -80,9 +80,4 @@ router.delete("/api/users/:username/posts/:postId/comments/:commentId", (req, re
   );
 });
 
-// // Start the server
-// const port = 3000;
-// app.listen(port, () => {
-//   console.log(`Server listening on port ${port}`);
-// });
 module.exports = router;

@@ -50,40 +50,6 @@ router.get("/api/users/:username/posts/alphabeticalOrder", (req, res) => {
   );
 });
 
-// router.get("/api/users/:username/posts/completed", (req, res) => {
-//   // get completed posts of a specific user
-//   const username = req.params.username;
-//   connection.query(
-//     "SELECT posts.* FROM posts JOIN users ON posts.userid = users.id WHERE users.username = ? AND posts.completed = true",
-//     [username],
-//     (err, results) => {
-//       if (err) {
-//         console.error("Error executing MySQL query:", err);
-//         res.status(500).json({ error: "Failed to retrieve completed posts" });
-//         return;
-//       }
-//       res.json(results);
-//     }
-//   );
-// });
-
-// app.get("/api/posts/user/:username/incomplete", (req, res) => {
-//   // get incomplete posts of a specific user
-//   const username = req.params.username;
-//   connection.query(
-//     "SELECT posts.* FROM posts JOIN users ON posts.userid = users.id WHERE users.username = ? AND posts.completed = false",
-//     [username],
-//     (err, results) => {
-//       if (err) {
-//         console.error("Error executing MySQL query:", err);
-//         res.status(500).json({ error: "Failed to retrieve incomplete posts" });
-//         return;
-//       }
-//       res.json(results);
-//     }
-//   );
-// });
-
 router.post("/api/users/:username/posts", (req, res) => {
   // add a new post
   const username = req.params.username;
@@ -161,10 +127,5 @@ router.delete("/api/users/:username/posts/:postId", (req, res) => {
   );
 });
 
-// // Start the server
-// const port = 3000;
-// app.listen(port, () => {
-//   console.log(`Server listening on port ${port}`);
-// });
 
 module.exports = router;

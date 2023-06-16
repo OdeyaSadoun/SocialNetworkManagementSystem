@@ -90,6 +90,170 @@ class RestAPI {
     };
     return await RestAPI.fetchData(url, options);
   }
+
+  //*******************************************************/
+
+  static async getTodosByUsername(username) {
+    const url = `${BASE_URL}/api/users/${username}/todos`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async getCompletedTodosByUsername(username) {
+    const url = `${BASE_URL}/api/users/${username}/todos/completed`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async getIncompleteTodosByUsername(username) {
+    const url = `${BASE_URL}/api/users/${username}/todos/incomplete`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async addTodoByUsername(username, userid, title, completed) {
+    const url = `${BASE_URL}/api/users/${username}/todos`;
+    const body = { userid, title, completed };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updateTodoCompletionStatus(username, taskId, completed) {
+    const url = `${BASE_URL}/api/users/${username}/todos/${taskId}/editcompleted`;
+    const body = { completed };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updateTodoTitle(username, taskId, title) {
+    const url = `${BASE_URL}/api/users/${username}/todos/${taskId}/edittitle`;
+    const body = { title };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async deleteTodoByUsername(username, taskId) {
+    const url = `${BASE_URL}/api/users/${username}/todos/${taskId}`;
+    const options = {
+      method: 'DELETE'
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  //*******************************************************/
+  
+  static async getPostsByUsername(username) {
+    const url = `${BASE_URL}/api/users/${username}/posts`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async getPostsInAlphabeticalOrder(username) {
+    const url = `${BASE_URL}/api/users/${username}/posts/alphabeticalOrder`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async addPostByUsername(username, userid, title, completed) {
+    const url = `${BASE_URL}/api/users/${username}/posts`;
+    const body = { userid, title, completed };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updatePostTitle(username, postId, title) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}/edittitle`;
+    const body = { title };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updatePostBody(username, postId, body) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}/editbody`;
+    const body = { body };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async deletePostByUsername(username, postId) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}`;
+    const options = {
+      method: 'DELETE'
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  //*******************************************************/
+
+  static async getCommentsByPostId(username, postId) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async addCommentToPost(username, postId, content) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments`;
+    const body = { postid: postId, content };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updateCommentContent(username, postId, commentId, content) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments/${commentId}/edit`;
+    const body = { content };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async deleteComment(username, postId, commentId) {
+    const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments/${commentId}`;
+    const options = {
+      method: 'DELETE'
+    };
+    return await RestAPI.fetchData(url, options);
+  }
 }
 
 export default RestAPI;
