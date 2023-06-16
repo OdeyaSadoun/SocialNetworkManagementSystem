@@ -118,8 +118,9 @@ router.get("/api/users/:username/todos/incomplete", (req, res) => {
   );
 });
 
-router.post("/api/todos", (req, res) => {
+router.post("/api/users/:username/todos", (req, res) => {
   //add new task to todos
+  const username = req.params.username;
   const { userid, title, completed } = req.body;
   connection.query(
     "INSERT INTO todos (userid, title, completed) VALUES (?, ?, ?)",
