@@ -18,12 +18,34 @@ router.get("/api/users", (req, res) => {
   });
 });
 
-router.get("/api/users/:id", (req, res) => {
-  // get user by ID
-  const userId = req.params.id;
+// router.get("/api/users/:id", (req, res) => {
+//   // get user by ID
+//   const userId = req.params.id;
+//   connection.query(
+//     "SELECT * FROM users WHERE id = ?",
+//     [userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to retrieve user" });
+//         return;
+//       }
+
+//       if (results.length === 0) {
+//         res.status(404).json({ error: "User not found" });
+//         return;
+//       }
+
+//       res.json(results[0]);
+//     }
+//   );
+// });
+router.get("/api/users/:username", (req, res) => {
+  // get user by username
+  const username = req.params.username;
   connection.query(
-    "SELECT * FROM users WHERE id = ?",
-    [userId],
+    "SELECT * FROM users WHERE username = ?",
+    [username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -81,13 +103,95 @@ router.post("/api/users", (req, res) => {
   );
 });
 
-router.put("/api/users/:id/email", (req, res) => {
-  //update email to user
-  const userId = req.params.id;
+// router.put("/api/users/:id/email", (req, res) => {
+//   //update email to user
+//   const userId = req.params.id;
+//   const { email } = req.body;
+//   connection.query(
+//     "UPDATE users SET email = ? WHERE id = ?",
+//     [email, userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to update email" });
+//         return;
+//       }
+
+//       res.json({ message: "Email updated successfully" });
+//     }
+//   );
+// });
+
+// router.put("/api/users/:id/phone", (req, res) => {
+//   // update phone to user
+//   const userId = req.params.id;
+//   const { phone } = req.body;
+//   connection.query(
+//     "UPDATE users SET phone = ? WHERE id = ?",
+//     [phone, userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to update phone" });
+//         return;
+//       }
+
+//       res.json({ message: "Phone updated successfully" });
+//     }
+//   );
+// });
+
+// router.put("/api/users/:id/name", (req, res) => {
+//   // update name of user
+//   const userId = req.params.id;
+//   const { name } = req.body;
+//   connection.query(
+//     "UPDATE users SET name = ? WHERE id = ?",
+//     [name, userId],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to update name" });
+//         return;
+//       }
+
+//       res.json({ message: "Name updated successfully" });
+//     }
+//   );
+// });
+
+// router.put("/api/users/:id/password", (req, res) => {
+//   // update password to user
+//   const userId = req.params.id;
+//   const { password } = req.body;
+//   const { username } = req.body; // Assuming you provide the username in the request body
+
+//   connection.query(
+//     "UPDATE passwords SET password = ? WHERE username = ?",
+//     [password, username],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error executing MySQL query:", err);
+//         res.status(500).json({ error: "Failed to update password" });
+//         return;
+//       }
+
+//       if (results.affectedRows === 0) {
+//         res.status(404).json({ error: "User not found" });
+//         return;
+//       }
+
+//       res.json({ message: "Password updated successfully" });
+//     }
+//   );
+// });
+router.put("/api/users/:username/email", (req, res) => {
+  // update email of user
+  const username = req.params.username;
   const { email } = req.body;
   connection.query(
-    "UPDATE users SET email = ? WHERE id = ?",
-    [email, userId],
+    "UPDATE users SET email = ? WHERE username = ?",
+    [email, username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -100,13 +204,13 @@ router.put("/api/users/:id/email", (req, res) => {
   );
 });
 
-router.put("/api/users/:id/phone", (req, res) => {
-  // update phone to user
-  const userId = req.params.id;
+router.put("/api/users/:username/phone", (req, res) => {
+  // update phone of user
+  const username = req.params.username;
   const { phone } = req.body;
   connection.query(
-    "UPDATE users SET phone = ? WHERE id = ?",
-    [phone, userId],
+    "UPDATE users SET phone = ? WHERE username = ?",
+    [phone, username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -119,13 +223,13 @@ router.put("/api/users/:id/phone", (req, res) => {
   );
 });
 
-router.put("/api/users/:id/name", (req, res) => {
+router.put("/api/users/:username/name", (req, res) => {
   // update name of user
-  const userId = req.params.id;
+  const username = req.params.username;
   const { name } = req.body;
   connection.query(
-    "UPDATE users SET name = ? WHERE id = ?",
-    [name, userId],
+    "UPDATE users SET name = ? WHERE username = ?",
+    [name, username],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -138,12 +242,10 @@ router.put("/api/users/:id/name", (req, res) => {
   );
 });
 
-router.put("/api/users/:id/password", (req, res) => {
-  // update password to user
-  const userId = req.params.id;
+router.put("/api/users/:username/password", (req, res) => {
+  // update password of user
+  const username = req.params.username;
   const { password } = req.body;
-  const { username } = req.body; // Assuming you provide the username in the request body
-
   connection.query(
     "UPDATE passwords SET password = ? WHERE username = ?",
     [password, username],
