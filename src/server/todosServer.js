@@ -139,7 +139,7 @@ router.post("/api/users/:username/todos", (req, res) => {
   );
 });
 
-router.put("/api/users/:username/todos/:taskId/completed", (req, res) => {
+router.put("/api/users/:username/todos/:taskId/editcompleted", (req, res) => {
   // update task completion status:
   const taskId = req.params.taskId;
   const username = req.params.username;
@@ -160,7 +160,7 @@ router.put("/api/users/:username/todos/:taskId/completed", (req, res) => {
   );
 });
 
-router.put("/api/users/:username/todos/:taskId", (req, res) => {
+router.put("/api/users/:username/todos/:taskId/edittitle", (req, res) => {
   // update task content
   const taskId = req.params.taskId;
   const username = req.params.username;
