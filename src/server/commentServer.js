@@ -1,10 +1,12 @@
 const express = require("express");
 const connection = require("./connection.js");
+const router = express.Router();
 const app = express();
 app.use(express.json());
 
-app.get("/api/comments/:postId", (req, res) => {
+router.get("/api/users/:username/posts/:postId/comments", (req, res) => {
   // get comments by post id
+  const username = req.params.username;
   const postId = req.params.postId;
   connection.query(
     "SELECT * FROM comments WHERE postid = ?",
@@ -20,8 +22,9 @@ app.get("/api/comments/:postId", (req, res) => {
   );
 });
 
-app.post("/api/comments", (req, res) => {
+router.post("/api/users/:username/posts/:postId/comments", (req, res) => {
   // add new comment to comments
+  const username = req.params.username;
   const { postid, content } = req.body;
   connection.query(
     "INSERT INTO comments (postid, content) VALUES (?, ?)",
@@ -40,8 +43,9 @@ app.post("/api/comments", (req, res) => {
   );
 });
 
-app.put("/api/comments/:commentId", (req, res) => {
+router.put("/api/users/:username/posts/:postId/comments/:commentId/edit", (req, res) => {
   // update comment content
+  const username = req.params.username;
   const commentId = req.params.commentId;
   const { content } = req.body;
   connection.query(
@@ -58,8 +62,9 @@ app.put("/api/comments/:commentId", (req, res) => {
   );
 });
 
-app.delete("/api/comments/:commentId", (req, res) => {
+router.delete("/api/users/:username/posts/:postId/comments/:commentId", (req, res) => {
   // delete comment from the database
+  const username = req.params.username;
   const commentId = req.params.commentId;
   connection.query(
     "DELETE FROM comments WHERE id = ?",
@@ -75,8 +80,9 @@ app.delete("/api/comments/:commentId", (req, res) => {
   );
 });
 
-// Start the server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+// // Start the server
+// const port = 3000;
+// app.listen(port, () => {
+//   console.log(`Server listening on port ${port}`);
+// });
+module.exports = router;
