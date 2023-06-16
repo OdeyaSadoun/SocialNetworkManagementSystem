@@ -1,6 +1,5 @@
 const express = require("express");
 const connection = require("./connection.js");
-const router = require("./todosServer.js");
 const router = express.Router();
 const app = express();
 app.use(express.json());
