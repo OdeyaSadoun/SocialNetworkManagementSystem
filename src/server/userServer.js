@@ -4,8 +4,6 @@ const router = express.Router();
 const app = express();
 app.use(express.json());
 
-
-
 router.get("/api/users", (req, res) => {
   // get all users
   connection.query("SELECT * FROM users", (err, results) => {
