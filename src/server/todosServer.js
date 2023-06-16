@@ -33,7 +33,7 @@ router.get("/api/todos", (req, res) => {
 //   );
 // });
 
-router.get("/api/todos/user/:username", (req, res) => {
+router.get("/api/users/:username/todos", (req, res) => {
   // get todos by user id - with the username in the url
   const username = req.params.username;
   connection.query(
@@ -84,7 +84,7 @@ router.get("/api/todos/user/:username", (req, res) => {
 //   );
 // });
 
-router.get("/api/todos/user/:username/completed", (req, res) => {
+router.get("/api/users/:username/todos/completed", (req, res) => {
   // get complete todos of a specific user - with the username in url
   const username = req.params.username;
   connection.query(
@@ -101,7 +101,7 @@ router.get("/api/todos/user/:username/completed", (req, res) => {
   );
 });
 
-router.get("/api/todos/user/:username/incomplete", (req, res) => {
+router.get("/api/users/:username/todos/incomplete", (req, res) => {
   // get complete todos of a specific user - with the username in url
   const username = req.params.username;
   connection.query(
@@ -138,9 +138,10 @@ router.post("/api/todos", (req, res) => {
   );
 });
 
-router.put("/api/todos/:taskId/completed", (req, res) => {
+router.put("/api/users/:username/todos/:taskId/completed", (req, res) => {
   // update task completion status:
   const taskId = req.params.taskId;
+  const username = req.params.username;
   const { completed } = req.body;
   connection.query(
     "UPDATE todos SET completed = ? WHERE id = ?",
@@ -158,9 +159,10 @@ router.put("/api/todos/:taskId/completed", (req, res) => {
   );
 });
 
-router.put("/api/todos/:todoId", (req, res) => {
+router.put("/api/users/:username/todos/:taskId", (req, res) => {
   // update task content
   const taskId = req.params.taskId;
+  const username = req.params.username;
   const { title } = req.body;
   connection.query(
     "UPDATE todos SET title = ? WHERE id = ?",
@@ -176,10 +178,11 @@ router.put("/api/todos/:todoId", (req, res) => {
   );
 });
 
-router.delete("/api/todos/:taskId", (req, res) => {
+router.delete("/api/users/:username/todos/:taskId", (req, res) => {
   // Deletion from the database will be performed when this task is not needed-
   // for example, a task that should not be performed at all.
   const taskId = req.params.taskId;
+  const username = req.params.username;
   connection.query(
     "DELETE FROM todos WHERE id = ?",
     [taskId],
