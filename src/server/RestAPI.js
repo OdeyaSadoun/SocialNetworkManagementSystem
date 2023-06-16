@@ -1,70 +1,95 @@
-class Server {
-    static async getUsers() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
-      const users = await response.json();
-      return users;
-    }
-  
-    static async getTodos() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos');
-      const todos = await response.json();
-      return todos;
-    }
-  
-    static async getTodosByUserId(userId) {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
-      const todos = await response.json();
-      return todos;
-    }
-  
-    static async getAlbums() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/albums');
-      const albums = await response.json();
-      return albums;
-    }
-  
-    static async getAlbumsByUserId(userId) {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/albums?userId=${userId}`);
-      const albums = await response.json();
-      return albums;
-    }
-  
-    static async getPosts() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-      const posts = await response.json();
-      return posts;
-    }
-  
-    static async getPostsByUserId(userId) {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
-      const posts = await response.json();
-      return posts;
-    }
-  
-    static async getComments() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/comments');
-      const comments = await response.json();
-      return comments;
-    }
-  
-    static async getCommentsByPostId(postId) {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`);
-      const comments = await response.json();
-      return comments;
-    }
-  
-    static async getPhotos() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/photos');
-      const photos = await response.json();
-      return photos;
-    }
-  
-    static async getPhotosByAlbumId(albumId) {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`);
-      const photos = await response.json();
-      return photos;
-    }
+const BASE_URL = 'http://localhost:3000';
+
+class RestAPI {
+
+  static async fetchData(url, options) {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data;
   }
-  
-  export default Server;
-  
+
+  static async getAllUsers() {
+    const url = `${BASE_URL}/api/users`;
+    return await RestAPI.fetchData(url);
+  }
+
+  static async getUserByUsernameAndPassword(username, password) {
+    const url = `${BASE_URL}/api/users/login`;
+    const body = { username, password };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async createUser(name, username, email, phone) {
+    const url = `${BASE_URL}/api/users`;
+    const body = { name, username, email, phone };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updateEmailByUsername(username, email) {
+    const url = `${BASE_URL}/api/users/${username}/email`;
+    const body = { email };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updatePhoneByUsername(username, phone) {
+    const url = `${BASE_URL}/api/users/${username}/phone`;
+    const body = { phone };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updateNameByUsername(username, name) {
+    const url = `${BASE_URL}/api/users/${username}/name`;
+    const body = { name };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+
+  static async updatePasswordByUsername(username, password) {
+    const url = `${BASE_URL}/api/users/${username}/password`;
+    const body = { password };
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    return await RestAPI.fetchData(url, options);
+  }
+}
+
+export default RestAPI;

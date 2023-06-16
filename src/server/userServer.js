@@ -61,7 +61,7 @@ router.get("/api/users/:username", (req, res) => {
   );
 });
 
-router.get("/api/users/login", (req, res) => {
+router.post("/api/users/login", (req, res) => {
   // get user by username and password
   const { username, password } = req.query;
   connection.query(
