@@ -11,10 +11,6 @@ function Links(props) {
     <>
       <div>
         <nav className="navbar">
-          <Link className={"NavLink"} to={`/${userId}/Albums`}>
-            Albums{" "}
-          </Link>
-          <br />
           <Link className={"NavLink"} to={`/${userId}/Todos`}>
             Todos{" "}
           </Link>
