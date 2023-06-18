@@ -195,7 +195,7 @@ class RestAPI {
 
   static async updatePostBody(username, postId, body) {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/editbody`;
-    const body = { body };
+    body = { body };
     const options = {
       method: 'PUT',
       headers: {

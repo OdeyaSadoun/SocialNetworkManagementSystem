@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { userContext } from "../App";
 import { useContext } from "react";
+import {RestAPI} from "../server/RestAPI"
 
 function Todos() {
 
   const userId = useContext(userContext).id;
+  const username = useContext(userContext).username;
+
   const [items, setItems] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("");
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
+      //const response = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
+      const response = await RestAPI.getTodosByUsername(username);
       const data = await response.json();
       setItems(data);
     } catch (error) {
