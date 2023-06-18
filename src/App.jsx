@@ -8,12 +8,12 @@ import {
   BrowserRouter,
   Navigate,
 } from "react-router-dom";
-import Albums from "./components/Albums";
+
 import Todos from "./components/Todos";
 import Posts from "./components/Posts";
 import Info from "./components/Info";
 import Links from "./components/Links";
-import Photos from "./components/Photos";
+
 import Comments from "./components/Comments";
 export const userContext = React.createContext();
 
@@ -42,8 +42,6 @@ function App() {
                 element={<Comments />}
               />
               <Route path="/:id/Info" element={<Info />} />
-              <Route path="/:id/Albums" element={<Albums />} />
-              <Route path="/:id/Albums/:albumId/Photos" element={<Photos />} />
             </Route>
           </Routes>
         </BrowserRouter>
