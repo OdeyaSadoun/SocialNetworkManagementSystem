@@ -1,9 +1,10 @@
 const express = require("express");
 const connection = require("./connection.js");
+const router = express.Router();
 const app = express();
 app.use(express.json());
 
-app.get("/api/todos", (req, res) => {
+router.get("/api/todos", (req, res) => {
   // get all todos
   connection.query("SELECT * FROM todos", (err, results) => {
     if (err) {
@@ -15,24 +16,7 @@ app.get("/api/todos", (req, res) => {
   });
 });
 
-// app.get("/api/todos/user/:userId", (req, res) => {
-//   // get todos by user id
-//   const userId = req.params.userId;
-//   connection.query(
-//     "SELECT * FROM todos WHERE userid = ?",
-//     [userId],
-//     (err, results) => {
-//       if (err) {
-//         console.error("Error executing MySQL query:", err);
-//         res.status(500).json({ error: "Failed to retrieve tasks" });
-//         return;
-//       }
-//       res.json(results);
-//     }
-//   );
-// });
-
-app.get("/api/todos/user/:username", (req, res) => {
+router.get("/api/users/:username/todos", (req, res) => {
   // get todos by user id - with the username in the url
   const username = req.params.username;
   connection.query(
@@ -49,41 +33,7 @@ app.get("/api/todos/user/:username", (req, res) => {
   );
 });
 
-// app.get("/api/todos/user/:userId/completed", (req, res) => {
-//   // get completed todos of a specific user:
-//   const userId = req.params.userId;
-//   connection.query(
-//     "SELECT * FROM todos WHERE userid = ? AND completed = true",
-//     [userId],
-//     (err, results) => {
-//       if (err) {
-//         console.error("Error executing MySQL query:", err);
-//         res.status(500).json({ error: "Failed to retrieve completed todos" });
-//         return;
-//       }
-//       res.json(results);
-//     }
-//   );
-// });
-
-// app.get("/api/todos/user/:userId/incomplete", (req, res) => {
-//   // get incomplete todos of a specific user
-//   const userId = req.params.userId;
-//   connection.query(
-//     "SELECT * FROM todos WHERE userid = ? AND completed = false",
-//     [userId],
-//     (err, results) => {
-//       if (err) {
-//         console.error("Error executing MySQL query:", err);
-//         res.status(500).json({ error: "Failed to retrieve incomplete todos" });
-//         return;
-//       }
-//       res.json(results);
-//     }
-//   );
-// });
-
-app.get("/api/todos/user/:username/completed", (req, res) => {
+router.get("/api/users/:username/todos/completed", (req, res) => {
   // get complete todos of a specific user - with the username in url
   const username = req.params.username;
   connection.query(
@@ -100,7 +50,7 @@ app.get("/api/todos/user/:username/completed", (req, res) => {
   );
 });
 
-app.get("/api/todos/user/:username/incomplete", (req, res) => {
+router.get("/api/users/:username/todos/incomplete", (req, res) => {
   // get complete todos of a specific user - with the username in url
   const username = req.params.username;
   connection.query(
@@ -117,8 +67,9 @@ app.get("/api/todos/user/:username/incomplete", (req, res) => {
   );
 });
 
-app.post("/api/todos", (req, res) => {
+router.post("/api/users/:username/todos", (req, res) => {
   //add new task to todos
+  const username = req.params.username;
   const { userid, title, completed } = req.body;
   connection.query(
     "INSERT INTO todos (userid, title, completed) VALUES (?, ?, ?)",
@@ -137,9 +88,10 @@ app.post("/api/todos", (req, res) => {
   );
 });
 
-app.put("/api/todos/:taskId/completed", (req, res) => {
+router.put("/api/users/:username/todos/:taskId/editcompleted", (req, res) => {
   // update task completion status:
   const taskId = req.params.taskId;
+  const username = req.params.username;
   const { completed } = req.body;
   connection.query(
     "UPDATE todos SET completed = ? WHERE id = ?",
@@ -157,9 +109,10 @@ app.put("/api/todos/:taskId/completed", (req, res) => {
   );
 });
 
-app.put("/api/todos/:todoId", (req, res) => {
+router.put("/api/users/:username/todos/:taskId/edittitle", (req, res) => {
   // update task content
   const taskId = req.params.taskId;
+  const username = req.params.username;
   const { title } = req.body;
   connection.query(
     "UPDATE todos SET title = ? WHERE id = ?",
@@ -175,10 +128,11 @@ app.put("/api/todos/:todoId", (req, res) => {
   );
 });
 
-app.delete("/api/todos/:taskId", (req, res) => {
+router.delete("/api/users/:username/todos/:taskId", (req, res) => {
   // Deletion from the database will be performed when this task is not needed-
   // for example, a task that should not be performed at all.
   const taskId = req.params.taskId;
+  const username = req.params.username;
   connection.query(
     "DELETE FROM todos WHERE id = ?",
     [taskId],
@@ -193,8 +147,4 @@ app.delete("/api/todos/:taskId", (req, res) => {
   );
 });
 
-// Start the server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+module.exports = router;
