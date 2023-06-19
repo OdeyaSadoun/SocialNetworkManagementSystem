@@ -1,41 +1,31 @@
 import React, { useState } from 'react';
 import "./Login.css"
 import { useNavigate } from 'react-router-dom';
+import RestAPI from "../server/RestAPI"
 
 
-function Login(props) {
+
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log(username, password)
+    const user = await RestAPI.getUserByUsernameAndPassword(username, password);
+    console.log(user)
+    // // Password needs to be the last 4 digits of the lat field
+    // const user = users.find((user) => user.username === username && user === password);
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/users?username=${username}`);
-      const users = await response.json();
-      const foundUser = users.find(user => user.username === username);
+    if (user) {
+      // Save the authorized user to local storage
+      localStorage.setItem('user', JSON.stringify(user));
 
-      if (foundUser) {
-        const lastFourDigits = foundUser.address.geo.lat.slice(-4);
-        if (password === lastFourDigits) {
-          // Authorized user, perform login actions here
-          console.log('User logged in successfully!');
-          setIsLoggedIn(true);
-          props.setUserInfo(users[0]);
-
-          navigate(`/${users[0].id}`);
-
-        } else {
-          setErrorMessage('Invalid password');
-        }
-      } else {
-        setErrorMessage('User not found');
-      }
-    } catch (error) {
-      console.error('Error occurred during login:', error);
-      setErrorMessage('An error occurred. Please try again later.');
+      // Navigate to the application page
+      navigate(`/${user.id}`);
+    } else {
+      alert('Invalid username or password');
     }
   };
 
@@ -61,7 +51,7 @@ function Login(props) {
           />
         </div>
         <button onClick={handleLogin}>Login</button>
-        {errorMessage && <p>{errorMessage}</p>}
+        {/* {errorMessage && <p>{errorMessage}</p>} */}
       </div>
     );
 };

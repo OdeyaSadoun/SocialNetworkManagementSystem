@@ -4,14 +4,14 @@ export class RestAPI {
 
   static async fetchData(url, options) {
     var response;
-    if(options){
+    if (options) {
       response = await fetch(url, options);
-    }
-    else{
+    } else {
       response = await fetch(url);
     }
     return await response.json();
   }
+  
   
 
   static async getAllUsers() {
@@ -29,6 +29,7 @@ export class RestAPI {
       },
       body: JSON.stringify(body)
     };
+    console.log("options", options)
     return await RestAPI.fetchData(url, options);
   }
 

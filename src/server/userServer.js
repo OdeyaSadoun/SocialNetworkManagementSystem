@@ -1,8 +1,11 @@
 const express = require("express");
-const connection = require("./connection.js");
+const connection = require("./connection.js")
+const bodyParser = require('body-parser');;
 const router = express.Router();
 const app = express();
 app.use(express.json());
+
+router.use(bodyParser.json());
 
 router.get("/api/users", (req, res) => {
   // get all users
@@ -61,13 +64,15 @@ router.get("/api/users/:username", (req, res) => {
   );
 });
 
+
 router.post("/api/users/login", (req, res) => {
   // get user by username and password
-  const { username, password } = req.query;
+  const { username, password } = req.body;
   connection.query(
-    "SELECT * FROM passwords WHERE username = ? AND password = ?",
+    "SELECT * FROM users WHERE id = (SELECT id FROM passwords WHERE username = ? AND password = ?)",
     [username, password],
     (err, results) => {
+      console.log(username, password);
       if (err) {
         console.error("Error executing MySQL query:", err);
         res.status(500).json({ error: "Failed to retrieve user" });
@@ -84,22 +89,6 @@ router.post("/api/users/login", (req, res) => {
   );
 });
 
-router.post("/api/users", (req, res) => {
-  // add a new user
-  const { name, username, email, phone } = req.body;
-  connection.query(
-    "INSERT INTO users (name, username, email, phone) VALUES (?,?,?,?)",
-    [name, username, email, phone],
-    (err, result) => {
-      if (err) {
-        console.error("Error executing MySQL query:", err);
-        res.status(500).json({ error: "Failed to add user" });
-        return;
-      }
-      res.json({ message: "User added successfully" });
-    }
-  );
-});
 
 // router.put("/api/users/:id/email", (req, res) => {
 //   //update email to user
