@@ -54,7 +54,7 @@ function Todos() {
       case "serial":
         sortedItems.sort((a, b) => a.id - b.id);
         break;
-      case "performance":
+      case "complited":
         sortedItems.sort((a, b) => a.completed - b.completed);
         break;
       case "alphabetical":
@@ -87,7 +87,7 @@ function Todos() {
         >
           <option value="">None</option>
           <option value="serial">Serial</option>
-          <option value="performance">Performance</option>
+          <option value="complited">Complited</option>
           <option value="alphabetical">Alphabetical</option>
           <option value="random">Random</option>
         </select>

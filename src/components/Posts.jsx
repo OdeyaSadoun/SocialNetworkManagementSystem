@@ -2,8 +2,11 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { userContext } from "../App";
 import "./Posts.css";
 import { Link } from "react-router-dom";
+import RestAPI from "../server/RestAPI";
 function Posts() {
   const { id: userId } = useContext(userContext);
+  const username = useContext(userContext).username;
+
   const [posts, setPosts] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const postContentRef = useRef([]);
@@ -11,10 +14,8 @@ function Posts() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch(
-          `https://jsonplaceholder.typicode.com/users/${userId}/posts`
-        );
-        const posts = await response.json();
+        const posts = await RestAPI.getPostsByUsername(username);
+        // const posts = await response.json();
         setPosts(posts);
       } catch (error) {
         console.error("Error fetching posts:", error);
