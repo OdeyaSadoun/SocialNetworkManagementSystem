@@ -1,12 +1,12 @@
 const BASE_URL = 'http://localhost:3000';
 
-class RestAPI {
+export class RestAPI {
 
-  static async fetchData(url, options) {
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return data;
+  static async fetchData(url) {
+    const response = await fetch(url);
+    return await response.json();
   }
+  
 
   static async getAllUsers() {
     const url = `${BASE_URL}/api/users`;
@@ -93,8 +93,17 @@ class RestAPI {
 
   //*******************************************************/
 
+  static async getTodosById(userId) {
+    const url = `${BASE_URL}/api/users/${userId}/todos`;
+    return await RestAPI.fetchData(url);
+  }
+
   static async getTodosByUsername(username) {
+    // console.log("getTodosByUsername", username);
     const url = `${BASE_URL}/api/users/${username}/todos`;
+    // const response = await fetch(url);
+    // // console.log("url", url);
+    // return await response.json();
     return await RestAPI.fetchData(url);
   }
 

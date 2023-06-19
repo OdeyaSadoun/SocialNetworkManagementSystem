@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { userContext } from "../App";
 import { useContext } from "react";
-import {RestAPI} from "../server/RestAPI"
+import RestAPI from "../server/RestAPI"
 
 function Todos() {
 
@@ -15,7 +15,8 @@ function Todos() {
     try {
       //const response = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
       const response = await RestAPI.getTodosByUsername(username);
-      const data = await response.json();
+      console.log("response", response);
+      const data = response;
       setItems(data);
     } catch (error) {
       console.log("Error fetching todos:", error);
