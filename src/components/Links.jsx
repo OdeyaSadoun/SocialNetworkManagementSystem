@@ -4,22 +4,23 @@ import { useContext } from "react";
 import "./Links.css";
 
 function Links(props) {
-  const userId = useContext(userContext).id;
-  const user = useContext(userContext);
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
 
   return (
     <>
       <div>
         <nav className="navbar">
-          <Link className={"NavLink"} to={`/${userId}/Todos`}>
+          <Link className={"NavLink"} to={`/${user.id}/Todos`}>
             Todos{" "}
           </Link>
           <br />
-          <Link className={"NavLink"} to={`/${userId}/Posts`}>
+          <Link className={"NavLink"} to={`/${user.id}/Posts`}>
             Posts{" "}
           </Link>
           <br />
-          <Link className={"NavLink"} to={`/${userId}/Info`}>
+          <Link className={"NavLink"} to={`/${user.id}/Info`}>
             Info{" "}
           </Link>
         </nav>
