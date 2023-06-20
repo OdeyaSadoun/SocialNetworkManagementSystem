@@ -60,12 +60,44 @@ const Todos = () => {
     setItems(updatedItems);
   };
 
-  const deleteItem = async (taskId) => {
+  const handleDelete = async (taskId) => {
     // Delete an item
     await RestAPI.deleteTodoByUsername(user.username, taskId); // Delete the task in the server
     const updatedItems = items.filter((item) => item.id !== taskId);
     setItems(updatedItems);
   };
+  const handleEdit = (item) => {
+    const newTitle = prompt("Enter the new task title", item.title);
+    if (newTitle) {
+      updateTaskTitle(item.id, newTitle);
+    }
+  };
+  const updateTaskTitle = async (taskId, newTitle) => {
+    try {
+      await RestAPI.updateTodoTitle(user.username, taskId, newTitle);
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => {
+          if (task.id === taskId) {
+            return { ...task, title: newTitle };
+          }
+          return task;
+        })
+      );
+      setItems((prevItems) =>
+        prevItems.map((item) => {
+          if (item.id === taskId) {
+            return { ...item, title: newTitle };
+          }
+          return item;
+        })
+      );
+    } catch (error) {
+      console.log("Error updating task title:", error);
+    }
+  };
+  
+  
+  
 
   return (
     <div className="checklist">
@@ -94,10 +126,11 @@ const Todos = () => {
               style={{ marginRight: "10px" }}
             />
             <p style={item.completed ? completedStyle : null}>{item.title}</p>
-            <button onClick={() => editItem(item.id)}>Edit</button>
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
+            <button onClick={() => handleEdit(item)}>Edit</button> {/* Add edit button */}
+            <button onClick={() => handleDelete(item)}>Delete</button> {/* Add delete button */}
           </li>
         ))}
+
       </ul>
     </div>
   );
