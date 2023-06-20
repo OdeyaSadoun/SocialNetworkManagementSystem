@@ -22,9 +22,33 @@ function Posts() {
         console.error("Error fetching posts:", error);
       }
     }
-
     fetchPosts();
   }, [user.id]);
+
+  //handle adding a new post
+  const addPost = async (title, completed) => {
+    try {
+      const newPost = await RestAPI.addPostByUsername(
+        user.username,
+        user.id,
+        title,
+        completed
+      );
+      setPosts((prevPosts) => [...prevPosts, newPost]);
+    } catch (error) {
+      console.error("Error adding post:", error);
+    }
+  };
+
+  //handle deleting a post
+  const deletePost = async (postId) => {
+    try {
+      await RestAPI.deletePostByUsername(user.username, postId);
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   const handlePostClick = (postId) => {
     setSelectedPostId((prevSelectedPostId) =>
@@ -63,6 +87,8 @@ function Posts() {
           </div>
         ))}
       </div>
+      <button onClick={() => addPost("New Post", false)}>Add Post</button>
+      <button onClick={() => deletePost(selectedPostId)}>Delete Post</button>
     </>
   );
 }
