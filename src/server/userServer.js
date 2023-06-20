@@ -1,6 +1,7 @@
 const express = require("express");
 const connection = require("./connection.js")
-const bodyParser = require('body-parser');;
+const bodyParser = require('body-parser');
+const crypto = require('crypto');
 const router = express.Router();
 const app = express();
 app.use(express.json());
@@ -89,7 +90,55 @@ router.post("/api/users/login", (req, res) => {
   );
 });
 
-//aadd user
+//add user
+router.post("/api/users", (req, res) => {
+  console.log(req.body)
+  const { username, password, email, website, name, phone } = req.body;
+  console.log(username)
+  // Generate a random API key
+  const apiKey = generateRandomKey(20);
+  
+  connection.query(
+    "INSERT INTO users (username, email, website, name, phone, `rank`, api_key) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [username, email, website, name, phone, "user", apiKey],
+    (err, results) => {
+      if (err) {
+        console.error("Error executing MySQL query:", err);
+        res.status(500).json({ error: "Failed to create user" });
+        return;
+      }
+
+      // Retrieve the generated user ID
+      const userId = results.insertId;
+
+      // Insert the password into the passwords table
+      connection.query(
+        "INSERT INTO passwords (username, password, id) VALUES (?, ?, ?)",
+        [username, password, userId],
+        (err) => {
+          if (err) {
+            console.error("Error executing MySQL query:", err);
+            res.status(500).json({ error: "Failed to create user" });
+            return;
+          }
+
+          res.status(201).json({ message: "User created successfully" });
+        }
+      );
+    }
+  );
+});
+
+// Generate a random API key
+function generateRandomKey(length) {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let apiKey = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    apiKey += characters.charAt(randomIndex);
+  }
+  return apiKey;
+}
 
 // router.put("/api/users/:id/email", (req, res) => {
 //   //update email to user
