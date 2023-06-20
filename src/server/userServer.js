@@ -89,6 +89,7 @@ router.post("/api/users/login", (req, res) => {
   );
 });
 
+//aadd user
 
 // router.put("/api/users/:id/email", (req, res) => {
 //   //update email to user
