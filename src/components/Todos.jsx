@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { userContext } from "../App";
 import { useContext } from "react";
-import RestAPI from "../server/RestAPI"
+import RestAPI from "../server/RestAPI";
 
 const Todos = () => {
   const [tasks, setTasks] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("");
   const [items, setItems] = useState([]);
-  const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user);
+  const completedStyle = {
+    textDecoration: "line-through",
+  };
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     const fetchData = async () => {
       const tasks = await RestAPI.getTodosByUsername(user.username);
       setTasks(tasks);
+      setItems(tasks); // Update the items state with the fetched tasks
     };
     fetchData();
-  }, []); // Empty dependency array to run only once
+  }, []);
 
   const sortItems = (criteria) => {
     let sortedItems = [...items];
@@ -23,7 +27,7 @@ const Todos = () => {
       case "serial":
         sortedItems.sort((a, b) => a.id - b.id);
         break;
-      case "complited":
+      case "completed":
         sortedItems.sort((a, b) => a.completed - b.completed);
         break;
       case "alphabetical":
@@ -35,54 +39,33 @@ const Todos = () => {
       default:
         break;
     }
+    setItems(sortedItems);
   };
 
-  
-//  // Toggle completion status of an item
-//   const toggleItemCompletion = (id) => {
-//     setItems((prevItems) =>
-//       prevItems.map((item) => {
-//         if (item.id === id) {
-//           return { ...item, completed: !item.completed };
-//         }
-//         return item;
-//       })
-//     );
-//   };
-
-// handles the change event of the sorting criteria select element
   const handleSortingCriteriaChange = (e) => {
     setSortingCriteria(e.target.value);
     sortItems(e.target.value);
   };
-  
-// // Sort items based on the selected criteria
-//   const sortItems = (criteria) => {
-//     let sortedItems = [...items];
-//     switch (criteria) {
-//       case "serial":
-//         sortedItems.sort((a, b) => a.id - b.id);
-//         break;
-//       case "complited":
-//         sortedItems.sort((a, b) => a.completed - b.completed);
-//         break;
-//       case "alphabetical":
-//         sortedItems.sort((a, b) => a.title.localeCompare(b.title));
-//         break;
-//       case "random":
-//         sortedItems.sort(() => Math.random() - 0.5);
-//         break;
-//       default:
-//         break;
-//     }
-//     setItems(sortedItems);
-//   };
 
-//   const completedStyle = {
-//     textDecoration: "line-through",
-//     color: "#5a5a63",
-//     fontStyle: "italic",
-//   };
+  const toggleItemCompletion = async (taskId) => {
+    // Toggle completion status of an item
+    const updatedItems = items.map((item) => {
+      if (item.id === taskId) {
+        const completed = !item.completed;
+        RestAPI.updateTodoCompletionStatus(user.username, taskId, completed); // Update completion status in the server
+        return { ...item, completed };
+      }
+      return item;
+    });
+    setItems(updatedItems);
+  };
+
+  const deleteItem = async (taskId) => {
+    // Delete an item
+    await RestAPI.deleteTodoByUsername(user.username, taskId); // Delete the task in the server
+    const updatedItems = items.filter((item) => item.id !== taskId);
+    setItems(updatedItems);
+  };
 
   return (
     <div className="checklist">
@@ -96,17 +79,14 @@ const Todos = () => {
         >
           <option value="">None</option>
           <option value="serial">Serial</option>
-          <option value="complited">Complited</option>
+          <option value="completed">Completed</option>
           <option value="alphabetical">Alphabetical</option>
           <option value="random">Random</option>
         </select>
       </div>
       <ul style={{ listStyleType: "none" }}>
         {items.map((item) => (
-          <li
-            key={item.id}
-            style={{ display: "flex", alignItems: "center" }}
-          >
+          <li key={item.id} style={{ display: "flex", alignItems: "center" }}>
             <input
               type="checkbox"
               checked={item.completed}
@@ -114,11 +94,13 @@ const Todos = () => {
               style={{ marginRight: "10px" }}
             />
             <p style={item.completed ? completedStyle : null}>{item.title}</p>
+            <button onClick={() => editItem(item.id)}>Edit</button>
+            <button onClick={() => deleteItem(item.id)}>Delete</button>
           </li>
         ))}
       </ul>
     </div>
   );
-        }
+};
 
 export default Todos;

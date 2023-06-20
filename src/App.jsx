@@ -30,8 +30,10 @@ function App() {
       <userContext.Provider value={userInfo}>
         <BrowserRouter>
           <Routes>
-              <Route exact path="/" component={Login} />
-              <Route exact path="/register" component={Register} />
+              {/* <Route exact path="/" component={Login} />
+              <Route exact path="/register" component={Register} /> */}
+                          <Route path="/" element={<Login setUserInfo={setUserInfo} />} />
+            <Route path="/" element={<Navigate to="/Login" />} />
             <Route
               path="/Login"
               element={<Login setUserInfo={setUserInfo} />}
