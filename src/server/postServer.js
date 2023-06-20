@@ -108,24 +108,30 @@ router.put("/api/users/:username/posts/:postId/editbody", (req, res) => {
     }
   );
 });
-
+// DELETE a post for a specific user
 router.delete("/api/users/:username/posts/:postId", (req, res) => {
-  // delete a post
   const username = req.params.username;
   const postId = req.params.postId;
+
   connection.query(
-    "DELETE FROM posts WHERE id = ?",
-    [postId],
+    "DELETE FROM posts WHERE userId = ? AND id = ?",
+    [username, postId],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
         res.status(500).json({ error: "Failed to delete post" });
         return;
       }
+
+      // Check if any rows were affected by the delete operation
+      if (results.affectedRows === 0) {
+        res.status(404).json({ error: "Post not found" });
+        return;
+      }
+
       res.json({ message: "Post deleted successfully" });
     }
   );
 });
-
 
 module.exports = router;
