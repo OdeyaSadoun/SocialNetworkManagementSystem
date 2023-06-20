@@ -3,10 +3,11 @@ import { userContext } from "../App";
 import "./Posts.css";
 import { Link } from "react-router-dom";
 import RestAPI from "../server/RestAPI";
+
 function Posts() {
   const { id: userId } = useContext(userContext);
-  const username = useContext(userContext).username;
-
+  ///const username = useContext(userContext).username;
+  const user = JSON.parse(localStorage.getItem("user"));
   const [posts, setPosts] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const postContentRef = useRef([]);
@@ -14,7 +15,7 @@ function Posts() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const posts = await RestAPI.getPostsByUsername(username);
+        const posts = await RestAPI.getPostsByUsername(user.username);
         // const posts = await response.json();
         setPosts(posts);
       } catch (error) {
@@ -23,7 +24,7 @@ function Posts() {
     }
 
     fetchPosts();
-  }, [userId]);
+  }, [user.id]);
 
   const handlePostClick = (postId) => {
     setSelectedPostId((prevSelectedPostId) =>
@@ -43,12 +44,6 @@ function Posts() {
     }
   }, [selectedPostId, posts]);
 
-  const handleCommentsClick = (postId) => {
-    console.log(`Comments clicked for post with ID ${postId}`);
-    const history = useHistory();
-    history.push(`/${userId}/Posts/${postId}/Comments`);
-  };
-
   return (
     <>
       <h1>Posts List</h1>
@@ -63,7 +58,7 @@ function Posts() {
               }`}
             >
               <p>{post.body}</p>
-              <Link to={`/${userId}/Posts/${post.id}/Comments`}>Comments</Link>
+              <Link to={`/${user.id}/Posts/${post.id}/Comments`}>Comments</Link>
             </div>
           </div>
         ))}
