@@ -29,6 +29,10 @@ const Login = () => {
     }
   };
 
+  const handleNotHaveAccount = () => {
+    navigate('/register');
+  };
+
     return (
       <div>
         <h2>Login</h2>
@@ -51,6 +55,7 @@ const Login = () => {
           />
         </div>
         <button onClick={handleLogin}>Login</button>
+        <button onClick={handleNotHaveAccount}>not have account?</button>
         {/* {errorMessage && <p>{errorMessage}</p>} */}
       </div>
     );

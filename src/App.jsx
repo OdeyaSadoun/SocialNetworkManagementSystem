@@ -13,7 +13,7 @@ import Todos from "./components/Todos";
 import Posts from "./components/Posts";
 import Info from "./components/Info";
 import Links from "./components/Links";
-
+import Register from './components/Register';
 import Comments from "./components/Comments";
 
 export const userContext = React.createContext();
@@ -30,7 +30,8 @@ function App() {
       <userContext.Provider value={userInfo}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navigate to="/Login" />} />
+              <Route exact path="/" component={Login} />
+              <Route exact path="/register" component={Register} />
             <Route
               path="/Login"
               element={<Login setUserInfo={setUserInfo} />}
