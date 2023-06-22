@@ -92,11 +92,12 @@ router.post("/api/users/login", (req, res) => {
 
 //add user
 router.post("/api/users", (req, res) => {
-  console.log(req.body)
+  console.log(req.body, 'body')
   const { username, password, email, website, name, phone } = req.body;
-  console.log(username)
+  console.log(username, 'usernama')
   // Generate a random API key
   const apiKey = generateRandomKey(20);
+  console('hi')
   
   connection.query(
     "INSERT INTO users (username, email, website, name, phone, `rank`, api_key) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -104,21 +105,21 @@ router.post("/api/users", (req, res) => {
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
-        res.status(500).json({ error: "Failed to create user" });
+        res.status(500).json({ error: "Failed to create user1" });
         return;
       }
-
+      console.log('after 1 query')
       // Retrieve the generated user ID
       const userId = results.insertId;
 
       // Insert the password into the passwords table
       connection.query(
-        "INSERT INTO passwords (username, password, id) VALUES (?, ?, ?)",
-        [username, password, userId],
+        "INSERT INTO passwords (username, password) VALUES (?, ?)",
+        [username, password],
         (err) => {
           if (err) {
             console.error("Error executing MySQL query:", err);
-            res.status(500).json({ error: "Failed to create user" });
+            res.status(500).json({ error: "Failed to create user2" });
             return;
           }
 

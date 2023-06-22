@@ -9,6 +9,7 @@ export class RestAPI {
     } else {
       response = await fetch(url);
     }
+    console.log(response, 'response api')
     return await response.json();
   }
   
@@ -33,9 +34,9 @@ export class RestAPI {
     return await RestAPI.fetchData(url, options);
   }
 
-  static async createUser(name, username, email, phone, website) {
+  static async createUser(name, username, email, phone, website, password) {
     const url = `${BASE_URL}/api/users`;
-    const body = { name, username, email, phone ,website };
+    const body = { name, username, email, phone ,website, password };
     const options = {
       method: 'POST',
       headers: {
@@ -43,6 +44,8 @@ export class RestAPI {
       },
       body: JSON.stringify(body)
     };
+    console.log('api-create')
+    console.log("options", options)
     return await RestAPI.fetchData(url, options);
   }
 

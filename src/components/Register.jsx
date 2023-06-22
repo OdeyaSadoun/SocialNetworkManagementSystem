@@ -1,14 +1,15 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RestAPI from '../server/RestAPI';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [website, setWebsite] = useState('');
+  const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
 
@@ -17,17 +18,17 @@ const Register = () => {
 
     // Send registration data to the server
     const response = await RestAPI.createUser(
-      username,
-      password,
-      email,
-      website,
       name,
-      phone
+      username,
+      email,
+      phone,
+      website,
+      password
     );
-
-    if (response) {
+    console.log(response.status)
+    if (response && response.status === 201) {
       // Registration successful, navigate to the desired component
-      navigate(`/link-component`);
+      navigate('/link-component');
     } else {
       // Registration failed, display an error message or handle as desired
       console.log('Registration failed');
@@ -38,6 +39,15 @@ const Register = () => {
     <div>
       <h2>Register</h2>
       <div>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
+      </div>
+      <div>
         <label htmlFor="username">Username:</label>
         <input
           type="text"
@@ -46,8 +56,42 @@ const Register = () => {
           onChange={(event) => setUsername(event.target.value)}
         />
       </div>
-      {/* Add other registration input fields as needed */}
-      {/* ... */}
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="phone">Phone:</label>
+        <input
+          type="text"
+          id="phone"
+          value={phone}
+          onChange={(event) => setPhone(event.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="website">Website:</label>
+        <input
+          type="text"
+          id="website"
+          value={website}
+          onChange={(event) => setWebsite(event.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </div>
       <button onClick={handleRegister}>Register</button>
     </div>
   );
