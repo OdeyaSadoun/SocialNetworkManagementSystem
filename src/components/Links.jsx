@@ -22,9 +22,6 @@ function Links(props) {
             Info{" "}
           </Link>
           <br />
-          <Link className={"NavLink"} to={`/${user.id}/Register`}>
-            Register{" "}
-          </Link>
         </nav>
         <h2>Hello, {user.name}!</h2>
       </div>
