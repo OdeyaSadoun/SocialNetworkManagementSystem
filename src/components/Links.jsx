@@ -4,9 +4,7 @@ import { useContext } from "react";
 import "./Links.css";
 
 function Links(props) {
-
-  const user = JSON.parse(localStorage.getItem('user'));
-
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
@@ -22,6 +20,10 @@ function Links(props) {
           <br />
           <Link className={"NavLink"} to={`/${user.id}/Info`}>
             Info{" "}
+          </Link>
+          <br />
+          <Link className={"NavLink"} to={`/${user.id}/Register`}>
+            Register{" "}
           </Link>
         </nav>
         <h2>Hello, {user.name}!</h2>
