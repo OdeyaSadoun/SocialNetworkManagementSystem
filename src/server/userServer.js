@@ -90,14 +90,15 @@ router.post("/api/users/login", (req, res) => {
   );
 });
 
-//add user
+// Add user
 router.post("/api/users", (req, res) => {
-  console.log(req.body, 'body')
+  console.log(req.body, 'body');
   const { username, password, email, website, name, phone } = req.body;
-  console.log(username, 'usernama')
+  console.log(username, 'username');
+  
   // Generate a random API key
   const apiKey = generateRandomKey(20);
-  console('hi')
+  console.log(apiKey, 'apiKey');
   
   connection.query(
     "INSERT INTO users (username, email, website, name, phone, `rank`, api_key) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -108,7 +109,7 @@ router.post("/api/users", (req, res) => {
         res.status(500).json({ error: "Failed to create user1" });
         return;
       }
-      console.log('after 1 query')
+      
       // Retrieve the generated user ID
       const userId = results.insertId;
 
@@ -123,7 +124,7 @@ router.post("/api/users", (req, res) => {
             return;
           }
 
-          res.status(201).json({ message: "User created successfully" });
+          res.status(201).json({message: "create user succefuly", status: 201});
         }
       );
     }

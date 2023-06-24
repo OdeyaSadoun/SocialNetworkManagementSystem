@@ -16,6 +16,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    console.log('hi handler register');
     // Send registration data to the server
     const response = await RestAPI.createUser(
       name,
@@ -25,10 +26,12 @@ const Register = () => {
       website,
       password
     );
-    console.log(response.status)
+    console.log('hi register after options');
+    console.log('response', response);
     if (response && response.status === 201) {
       // Registration successful, navigate to the desired component
-      navigate('/link-component');
+      navigate('/Login');
+      console.log('move to navigate');
     } else {
       // Registration failed, display an error message or handle as desired
       console.log('Registration failed');

@@ -4,14 +4,21 @@ export class RestAPI {
 
   static async fetchData(url, options) {
     var response;
+    console.log('hi fetchData register');
+    console.log('options',options);
     if (options) {
       response = await fetch(url, options);
+      console.log('hi fetchData register options');
+
     } else {
       response = await fetch(url);
     }
-    console.log(response, 'response api')
-    return await response.json();
+    console.log(response, 'response api');
+    const jsonData = await response.json(); // Parse response body as JSON
+    console.log(jsonData); // Log the parsed JSON data
+    return jsonData; // Return the parsed JSON data
   }
+  
   
   
 
