@@ -1,20 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { userContext } from "../App";
-import { useContext } from "react";
-
-const Info = () => {
-  const user = useContext(userContext);
+import React from 'react';
+function Info() {
+  const user = JSON.parse(localStorage.getItem('user'));
 
   return (
-    <div>
-      <h1>User Info</h1>
-      <p>User Name: {user.username}</p>
-      <p>Name: {user.name}</p>
-      <p>Email: {user.email}</p>
-      <p>Phone: {user.phone}</p>
-      <p>Address: {user.address?.street}, {user.address?.city}</p>
+    <div><div className="info">
+      <div className="container">
+        <h2 className="heading">User Information</h2>
+        <p className="value">
+          <span className="label">Name:</span> {user.name}
+        </p>
+        <p className="value">
+          <span className="label">Username:</span> {user.username}
+        </p>
+        <p className="value">
+          <span className="label">Email:</span> {user.email}
+        </p>
+
+        <p className="value">
+          <span className="label">Phone:</span> {user.phone}
+        </p>
+        <p className="value">
+          <span className="label">Website:</span> {user.website}
+        </p>
+
+      </div>
+
+      </div>
     </div>
   );
-};
+}
+
 
 export default Info;
+
+
+
