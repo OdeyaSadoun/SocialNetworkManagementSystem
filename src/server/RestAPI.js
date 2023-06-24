@@ -130,6 +130,12 @@ export class RestAPI {
     return await RestAPI.fetchData(url);
   }
 
+  static async getAlphabeticalTodosByUsername(username) {
+    const url = `${BASE_URL}/api/users/${username}/todos/alphabetical`;
+    return await RestAPI.fetchData(url);
+  }
+
+
   static async addTodoByUsername(username, userid, title, completed) {
     const url = `${BASE_URL}/api/users/${username}/todos`;
     const body = { userid, title, completed };

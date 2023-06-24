@@ -67,6 +67,24 @@ router.get("/api/users/:username/todos/incomplete", (req, res) => {
   );
 });
 
+router.get("/api/users/:username/todos/alphabetical", (req, res) => {
+  // Get all todos of a specific user in alphabetical order - with the username in the URL
+  const username = req.params.username;
+  connection.query(
+    "SELECT todos.* FROM todos JOIN users ON todos.userid = users.id WHERE users.username = ? ORDER BY todos.title ASC",
+    [username],
+    (err, results) => {
+      if (err) {
+        console.error("Error executing MySQL query:", err);
+        res.status(500).json({ error: "Failed to retrieve todos in alphabetical order" });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+
 router.post("/api/users/:username/todos", (req, res) => {
   //add new task to todos
   const username = req.params.username;

@@ -51,20 +51,26 @@ const Todos = () => {
     sortItems(e.target.value);
   };
 
-  const sortItems = (criteria) => {
+  const sortItems = async (criteria) => {
     let sortedItems = [...items];
     switch (criteria) {
-      case "serial":
-        sortedItems.sort((a, b) => a.id - b.id);
+      case "not-order":
+        sortedItems = sortedItems;
         break;
       case "completed":
-        sortedItems.sort((a, b) => a.completed - b.completed);
+        console.log('before', sortedItems);
+        sortedItems = await RestAPI.getCompletedTodosByUsername(user.username);
+        console.log('after', sortedItems);
+        break;
+      case "not-completed":
+        console.log('before', sortedItems);
+        sortedItems = await RestAPI.getIncompleteTodosByUsernameCompletedTodosByUsername(user.username);
+        console.log('after', sortedItems);
         break;
       case "alphabetical":
-        sortedItems.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "random":
-        sortedItems.sort(() => Math.random() - 0.5);
+        console.log('before', sortedItems);
+        sortedItems = await RestAPI.getAlphabeticalTodosByUsername(user.username);
+        console.log('after', sortedItems);
         break;
       default:
         break;
@@ -152,11 +158,10 @@ const Todos = () => {
           value={sortingCriteria}
           onChange={handleSortingCriteriaChange}
         >
-          <option value="">None</option>
-          <option value="serial">Serial</option>
+          <option value="not-order">None</option>
           <option value="completed">Completed</option>
+          <option value="not-completed">Not Completed</option>
           <option value="alphabetical">Alphabetical</option>
-          <option value="random">Random</option>
         </select>
       </div>
       <ul style={{ listStyleType: "none" }}>
