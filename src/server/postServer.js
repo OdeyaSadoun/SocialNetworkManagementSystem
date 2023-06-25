@@ -115,16 +115,15 @@ router.delete("/api/users/:username/posts/:postId", (req, res) => {
   const postId = req.params.postId;
 
   connection.query(
-    "DELETE FROM posts WHERE userId = ? AND id = ?",
-    [username, postId],
+    "DELETE comments, posts FROM comments INNER JOIN posts ON comments.post_id = posts.id WHERE posts.id = ?",
+    [postId],
     (err, results) => {
       if (err) {
-        console.error("Error executing MySQL query:", err);
+        console.error("Error deleting post and comments:", err);
         res.status(500).json({ error: "Failed to delete post" });
         return;
       }
 
-      // Check if any rows were affected by the delete operation
       if (results.affectedRows === 0) {
         res.status(404).json({ error: "Post not found" });
         return;
@@ -134,5 +133,6 @@ router.delete("/api/users/:username/posts/:postId", (req, res) => {
     }
   );
 });
+
 
 module.exports = router;

@@ -1,17 +1,13 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { userContext } from "../App";
 import "./Posts.css";
-import { Link } from "react-router-dom";
 import RestAPI from "../server/RestAPI";
 
 function Posts() {
   const { id: userId } = useContext(userContext);
   const user = JSON.parse(localStorage.getItem("user"));
   const [posts, setPosts] = useState([]);
-  const [items, setItems] = useState([]);
-
   const [selectedPostId, setSelectedPostId] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostCompleted, setNewPostCompleted] = useState(false);
   const postContentRef = useRef([]);
@@ -28,40 +24,17 @@ function Posts() {
     fetchPosts();
   }, [user.username]);
 
-  // const addPost = async (title, completed) => {
-  //   try {
-  //     const newPost = await RestAPI.addPostByUsername(
-  //       user.username,
-  //       user.id,
-  //       title,
-  //       completed
-  //     );
-  //     setPosts((prevPosts) => [...prevPosts, newPost]);
-  //     setShowPopup(false);
-  //     setNewPostTitle("");
-  //     setNewPostCompleted(false);
-  //   } catch (error) {
-  //     console.error("Error adding post:", error);
-  //   }
-  // };
-
   const refreshPosts = async () => {
-    const tasks = await RestAPI.getPostsByUsername(user.username);
-    setPosts(tasks);
-    setItems(tasks);
+    const posts = await RestAPI.getPostsByUsername(user.username);
+    setPosts(posts);
   };
 
   const handleAddPost = async () => {
-    const newPost = window.prompt("Enter post title:");
-    const newBodypost = window.prompt("Enter body:");
-    if (newPost && newBodypost && newBodypost.trim() !== "" &&  newPost.trim() !== "") {
+    const newPostTitle = window.prompt("Enter post title:");
+    const newPostBody = window.prompt("Enter post body:");
+    if (newPostTitle && newPostBody && newPostTitle.trim() !== "" && newPostBody.trim() !== "") {
       try {
-        await RestAPI.addPostByUsername(
-          user.username,
-          user.id,
-          newPost, 
-          newBodypost
-        );
+        await RestAPI.addPostByUsername(user.username, user.id, newPostTitle, newPostBody);
         refreshPosts();
       } catch (error) {
         console.log("Error adding post:", error);
@@ -78,13 +51,11 @@ function Posts() {
     }
   };
 
-  const updatePostTitle = async (postId, title) => {
+  const updatePostTitle = async (postId, newTitle) => {
     try {
-      await RestAPI.updatePostTitle(user.username, postId, title);
+      await RestAPI.updatePostTitle(user.username, postId, newTitle);
       setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId ? { ...post, title } : post
-        )
+        prevPosts.map((post) => (post.id === postId ? { ...post, title: newTitle } : post))
       );
     } catch (error) {
       console.error("Error updating post title:", error);
@@ -92,23 +63,14 @@ function Posts() {
   };
 
   const handlePostClick = (postId) => {
-    setSelectedPostId((prevSelectedPostId) =>
-      prevSelectedPostId === postId ? null : postId
-    );
+    setSelectedPostId((prevSelectedPostId) => (prevSelectedPostId === postId ? null : postId));
   };
 
   useEffect(() => {
-    const selectedPostIndex = posts.findIndex(
-      (post) => post.id === selectedPostId
-    );
-    if (
-      selectedPostIndex !== -1 &&
-      postContentRef.current[selectedPostIndex]
-    ) {
+    const selectedPostIndex = posts.findIndex((post) => post.id === selectedPostId);
+    if (selectedPostIndex !== -1 && postContentRef.current[selectedPostIndex]) {
       const postContentElement = postContentRef.current[selectedPostIndex];
-      postContentElement.style.maxHeight = selectedPostId
-        ? `${postContentElement.scrollHeight}px`
-        : "0";
+      postContentElement.style.maxHeight = selectedPostId ? `${postContentElement.scrollHeight}px` : "0";
     }
   }, [selectedPostId, posts]);
 
@@ -121,28 +83,25 @@ function Posts() {
             <h3 onClick={() => handlePostClick(post.id)}>{post.title}</h3>
             <div
               ref={(el) => (postContentRef.current[index] = el)}
-              className={`post-content ${
-                selectedPostId === post.id ? "active" : ""
-              }`}
+              className={`post-content ${selectedPostId === post.id ? "active" : ""}`}
             >
               <p>{post.body}</p>
             </div>
             {selectedPostId === post.id && (
               <>
                 <button onClick={() => deletePost(post.id)}>Delete</button>
-                <button
-                  onClick={() =>
-                    updatePostTitle(post.id, "Updated Post Title")
+                <button onClick={() => {
+                  const newTitle = window.prompt("Enter new post title:", post.title);
+                  if (newTitle && newTitle.trim() !== "") {
+                    updatePostTitle(post.id, newTitle);
                   }
-                >
-                  Update Title
-                </button>
+                }}>Edit</button>
               </>
             )}
           </div>
         ))}
-            <button onClick={handleAddPost}>Add Post</button>
-        </div>
+      </div>
+      <button onClick={handleAddPost}>Add Post</button>
     </>
   );
 }
