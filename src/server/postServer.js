@@ -53,10 +53,10 @@ router.get("/api/users/:username/posts/alphabeticalOrder", (req, res) => {
 router.post("/api/users/:username/posts", (req, res) => {
   // add a new post
   const username = req.params.username;
-  const { userid, title, completed } = req.body;
+  const { userid, title, bodypost } = req.body;
   connection.query(
-    "INSERT INTO posts (userid, title, completed) VALUES (?, ?, ?)",
-    [userid, title, completed],
+    "INSERT INTO posts (userid, title, body) VALUES (?, ?, ?)",
+    [userid, title, bodypost],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -66,6 +66,7 @@ router.post("/api/users/:username/posts", (req, res) => {
       res.json({
         message: "Post added successfully",
         postId: results.insertId,
+        status: 201
       });
     }
   );

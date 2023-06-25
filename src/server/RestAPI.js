@@ -195,9 +195,10 @@ export class RestAPI {
     return await RestAPI.fetchData(url);
   }
 
-  static async addPostByUsername(username, userid, title, completed) {
+  static async addPostByUsername(username, userid, title, bodypost) {
+    console.log('add post api');
     const url = `${BASE_URL}/api/users/${username}/posts`;
-    const body = { userid, title, completed };
+    const body = { userid, title, bodypost};
     const options = {
       method: 'POST',
       headers: {
