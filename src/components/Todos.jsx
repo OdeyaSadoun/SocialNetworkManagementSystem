@@ -3,25 +3,6 @@ import { userContext } from "../App";
 import { useContext } from "react";
 import RestAPI from "../server/RestAPI";
 
-const TaskEditor = ({ taskId, currentTitle, onTitleChange }) => {
-  const [newTitle, setNewTitle] = useState(currentTitle);
-
-  const handleTitleChange = (e) => {
-    setNewTitle(e.target.value);
-  };
-
-  const handleSave = () => {
-    onTitleChange(taskId, newTitle);
-  };
-
-  return (
-    <div>
-      <input type="text" value={newTitle} onChange={handleTitleChange} />
-      <button onClick={handleSave}>Save</button>
-    </div>
-  );
-};
-
 const Todos = () => {
   const [tasks, setTasks] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("");
@@ -58,19 +39,13 @@ const Todos = () => {
         sortedItems = sortedItems;
         break;
       case "completed":
-        console.log('before', sortedItems);
         sortedItems = await RestAPI.getCompletedTodosByUsername(user.username);
-        console.log('after', sortedItems);
         break;
       case "not-completed":
-        console.log('before', sortedItems);
-        sortedItems = await RestAPI.getIncompleteTodosByUsernameCompletedTodosByUsername(user.username);
-        console.log('after', sortedItems);
+        sortedItems = await RestAPI.getIncompleteTodosByUsername(user.username);
         break;
       case "alphabetical":
-        console.log('before', sortedItems);
         sortedItems = await RestAPI.getAlphabeticalTodosByUsername(user.username);
-        console.log('after', sortedItems);
         break;
       default:
         break;
@@ -97,35 +72,23 @@ const Todos = () => {
   };
 
   const handleEdit = (item) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        if (task.id === item.id) {
-          return { ...task, isEditing: true };
-        }
-        return task;
-      })
-    );
+    const newTitle = window.prompt("Enter new task title", item.title);
+    if (newTitle && newTitle.trim() !== "") {
+      handleTaskTitleChange(item.id, newTitle);
+    }
   };
 
   const handleTaskTitleChange = async (taskId, newTitle) => {
     try {
       await RestAPI.updateTodoTitle(user.username, taskId, newTitle);
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => {
-          if (task.id === taskId) {
-            return { ...task, title: newTitle, isEditing: false };
-          }
-          return task;
-        })
-      );
-      setItems((prevItems) =>
-        prevItems.map((item) => {
-          if (item.id === taskId) {
-            return { ...item, title: newTitle };
-          }
-          return item;
-        })
-      );
+      const updatedTasks = tasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, title: newTitle };
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+      setItems(updatedTasks);
     } catch (error) {
       console.log("Error updating task title:", error);
     }
@@ -173,15 +136,7 @@ const Todos = () => {
               onChange={() => toggleItemCompletion(item.id)}
               style={{ marginRight: "10px" }}
             />
-            {item.isEditing ? (
-              <TaskEditor
-                taskId={item.id}
-                currentTitle={item.title}
-                onTitleChange={handleTaskTitleChange}
-              />
-            ) : (
-              <p style={item.completed ? completedStyle : null}>{item.title}</p>
-            )}
+            <p style={item.completed ? completedStyle : null}>{item.title}</p>
             <button onClick={() => handleEdit(item)}>Edit</button>
             <button onClick={() => handleDelete(item.id)}>Delete</button>
           </li>
