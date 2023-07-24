@@ -1,26 +1,21 @@
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = "http://localhost:3000";
 
 export class RestAPI {
-
   static async fetchData(url, options) {
     var response;
-    console.log('hi fetchData register');
-    console.log('options',options);
+    console.log("hi fetchData register");
+    console.log("options", options);
     if (options) {
       response = await fetch(url, options);
-      console.log('hi fetchData register options');
-
+      console.log("hi fetchData register options");
     } else {
       response = await fetch(url);
     }
-    console.log(response, 'response api');
+    console.log(response, "response api");
     const jsonData = await response.json(); // Parse response body as JSON
     console.log(jsonData); // Log the parsed JSON data
     return jsonData; // Return the parsed JSON data
   }
-  
-  
-  
 
   static async getAllUsers() {
     const url = `${BASE_URL}/api/users`;
@@ -31,28 +26,28 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/login`;
     const body = { username, password };
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
-    console.log("options", options)
+    console.log("options", options);
     return await RestAPI.fetchData(url, options);
   }
 
   static async createUser(name, username, email, phone, website, password) {
     const url = `${BASE_URL}/api/users`;
-    const body = { name, username, email, phone ,website, password };
+    const body = { name, username, email, phone, website, password };
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
-    console.log('api-create')
-    console.log("options", options)
+    console.log("api-create");
+    console.log("options", options);
     return await RestAPI.fetchData(url, options);
   }
 
@@ -60,11 +55,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/email`;
     const body = { email };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -73,11 +68,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/phone`;
     const body = { phone };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -86,11 +81,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/name`;
     const body = { name };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -99,11 +94,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/password`;
     const body = { password };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -135,16 +130,15 @@ export class RestAPI {
     return await RestAPI.fetchData(url);
   }
 
-
   static async addTodoByUsername(username, userid, title, completed) {
     const url = `${BASE_URL}/api/users/${username}/todos`;
     const body = { userid, title, completed };
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -153,11 +147,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/todos/${taskId}/editcompleted`;
     const body = { completed };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -166,11 +160,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/todos/${taskId}/edittitle`;
     const body = { title };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -178,13 +172,13 @@ export class RestAPI {
   static async deleteTodoByUsername(username, taskId) {
     const url = `${BASE_URL}/api/users/${username}/todos/${taskId}`;
     const options = {
-      method: 'DELETE'
+      method: "DELETE",
     };
     return await RestAPI.fetchData(url, options);
   }
 
   //*******************************************************/
-  
+
   static async getPostsByUsername(username) {
     const url = `${BASE_URL}/api/users/${username}/posts`;
     return await RestAPI.fetchData(url);
@@ -196,15 +190,15 @@ export class RestAPI {
   }
 
   static async addPostByUsername(username, userid, title, bodypost) {
-    console.log('add post api');
+    console.log("add post api");
     const url = `${BASE_URL}/api/users/${username}/posts`;
-    const body = { userid, title, bodypost};
+    const body = { userid, title, bodypost };
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -213,11 +207,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/edittitle`;
     const body = { title };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -226,9 +220,9 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/editbody`;
     const requestBody = { body };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody)
     };
@@ -238,7 +232,7 @@ export class RestAPI {
   static async deletePostByUsername(username, postId) {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}`;
     const options = {
-      method: 'DELETE'
+      method: "DELETE",
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -254,11 +248,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments`;
     const body = { postid: postId, content };
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -267,11 +261,11 @@ export class RestAPI {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments/${commentId}/edit`;
     const body = { content };
     const options = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
     return await RestAPI.fetchData(url, options);
   }
@@ -279,7 +273,7 @@ export class RestAPI {
   static async deleteComment(username, postId, commentId) {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments/${commentId}`;
     const options = {
-      method: 'DELETE'
+      method: "DELETE",
     };
     return await RestAPI.fetchData(url, options);
   }

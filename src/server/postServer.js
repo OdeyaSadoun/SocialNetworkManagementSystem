@@ -32,6 +32,30 @@ router.get("/api/users/:username/posts", (req, res) => {
     }
   );
 });
+router.get("/api/users/:username/posts/:postId", (req, res) => {
+  const username = req.params.username;
+  const postId = req.params.postId;
+
+  connection.query(
+    "SELECT * FROM posts WHERE username = ? AND id = ?",
+    [username, postId],
+    (err, results) => {
+      if (err) {
+        console.error("Error retrieving post:", err);
+        res.status(500).json({ error: "Failed to retrieve post" });
+        return;
+      }
+
+      if (results.length === 0) {
+        res.status(404).json({ error: "Post not found" });
+        return;
+      }
+
+      const post = results[0];
+      res.json(post);
+    }
+  );
+});
 
 router.get("/api/users/:username/posts/alphabeticalOrder", (req, res) => {
   // get posts by username in alphabetical order
@@ -66,7 +90,7 @@ router.post("/api/users/:username/posts", (req, res) => {
       res.json({
         message: "Post added successfully",
         postId: results.insertId,
-        status: 201
+        status: 201,
       });
     }
   );
@@ -115,24 +139,35 @@ router.delete("/api/users/:username/posts/:postId", (req, res) => {
   const postId = req.params.postId;
 
   connection.query(
-    "DELETE comments, posts FROM comments INNER JOIN posts ON comments.post_id = posts.id WHERE posts.id = ?",
+    "DELETE FROM comments WHERE postId = ?",
     [postId],
     (err, results) => {
       if (err) {
-        console.error("Error deleting post and comments:", err);
-        res.status(500).json({ error: "Failed to delete post" });
+        console.error("Error deleting comments:", err);
+        res.status(500).json({ error: "Failed to delete comments" });
         return;
       }
 
-      if (results.affectedRows === 0) {
-        res.status(404).json({ error: "Post not found" });
-        return;
-      }
+      connection.query(
+        "DELETE FROM posts WHERE id = ?",
+        [postId],
+        (err, results) => {
+          if (err) {
+            console.error("Error deleting post:", err);
+            res.status(500).json({ error: "Failed to delete post" });
+            return;
+          }
 
-      res.json({ message: "Post deleted successfully" });
+          if (results.affectedRows === 0) {
+            res.status(404).json({ error: "Post not found" });
+            return;
+          }
+
+          res.json({ message: "Post and comments deleted successfully" });
+        }
+      );
     }
   );
 });
-
 
 module.exports = router;
