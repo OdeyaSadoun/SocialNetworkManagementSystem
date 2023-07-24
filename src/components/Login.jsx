@@ -8,19 +8,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log(username, password);
+  // Login.js (Updated handleLogin function)
+const handleLogin = async (e) => {
+  e.preventDefault();
+  console.log(username, password);
+
+  try {
     const user = await RestAPI.getUserByUsernameAndPassword(username, password);
     console.log(user);
 
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      navigate(`/${user.id}`);
-    } else {
-      alert("Invalid username or password");
-    }
-  };
+    localStorage.setItem("user", JSON.stringify(user));
+    navigate(`/${user.id}`);
+  } catch (error) {
+    alert(error.message || "Invalid username or password");
+  }
+};
 
   return (
     <div>

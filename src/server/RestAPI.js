@@ -22,19 +22,33 @@ export class RestAPI {
     return await RestAPI.fetchData(url);
   }
 
-  static async getUserByUsernameAndPassword(username, password) {
-    const url = `${BASE_URL}/api/users/login`;
-    const body = { username, password };
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    };
-    console.log("options", options);
-    return await RestAPI.fetchData(url, options);
+// RestAPI.js (Updated getUserByUsernameAndPassword function)
+static async getUserByUsernameAndPassword(username, password) {
+  const url = `${BASE_URL}/api/users/login`;
+  const body = { username, password };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.error || "Failed to fetch user");
+    }
+  } catch (error) {
+    throw new Error(error.message || "Failed to fetch user");
   }
+}
+
+
 
   static async createUser(name, username, email, phone, website, password) {
     const url = `${BASE_URL}/api/users`;
