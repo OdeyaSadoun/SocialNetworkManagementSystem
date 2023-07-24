@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import RestAPI from '../server/RestAPI';
 
 const Register = () => {
@@ -29,8 +28,8 @@ const Register = () => {
     console.log('hi register after options');
     console.log('response', response);
     if (response && response.status === 201) {
-      // Registration successful, navigate to the desired component
-      navigate('/Login');
+      // Registration successful, navigate to the login page
+      navigate('/login');
       console.log('move to navigate');
     } else {
       // Registration failed, display an error message or handle as desired
@@ -96,6 +95,9 @@ const Register = () => {
         />
       </div>
       <button onClick={handleRegister}>Register</button>
+
+      {/* Add the "Back to Login" button using Link */}
+      <Link to="/login">Back to Login</Link>
     </div>
   );
 };
