@@ -224,13 +224,13 @@ export class RestAPI {
 
   static async updatePostBody(username, postId, body) {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/editbody`;
-    body = { body };
+    const requestBody = { body };
     const options = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(requestBody)
     };
     return await RestAPI.fetchData(url, options);
   }

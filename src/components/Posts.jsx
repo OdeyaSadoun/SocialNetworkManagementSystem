@@ -46,6 +46,7 @@ function Posts() {
     try {
       await RestAPI.deletePostByUsername(user.username, postId);
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      setSelectedPostId(null); // Reset the selected post id after deletion
     } catch (error) {
       console.error("Error deleting post:", error);
     }
