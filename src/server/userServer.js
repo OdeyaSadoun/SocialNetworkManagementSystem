@@ -70,7 +70,7 @@ router.post("/api/users/login", (req, res) => {
   // get user by username and password
   const { username, password } = req.body;
   connection.query(
-    "SELECT * FROM users WHERE id = (SELECT id FROM passwords WHERE username = ? AND password = ?)",
+    "SELECT * FROM users WHERE username = (SELECT username FROM passwords WHERE username = ? AND password = ?)",
     [username, password],
     (err, results) => {
       console.log(username, password);
@@ -81,7 +81,7 @@ router.post("/api/users/login", (req, res) => {
       }
 
       if (results.length === 0) {
-        res.status(404).json({ error: "User not found" });
+        res.status(404).json({ error: "User not found" });    
         return;
       }
 
