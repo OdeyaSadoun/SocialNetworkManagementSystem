@@ -12,10 +12,7 @@ function Comments() {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await RestAPI.getCommentsByPostId(
-          username,
-          postId
-        );
+        const commentsData = await RestAPI.getCommentsByPostId(username, postId);
         setComments(commentsData);
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -36,6 +33,11 @@ function Comments() {
     }
   };
 
+  const refreshComments = async () => {
+    const comments = await RestAPI.getCommentsByPostId(username, postId);
+    setComments(comments);
+  };
+
   const updateCommentContent = async (commentId, newContent) => {
     try {
       await RestAPI.updateCommentContent(
@@ -44,7 +46,7 @@ function Comments() {
         commentId,
         newContent
       );
-      fetchComments();
+      refreshComments();
     } catch (error) {
       console.error("Error updating comment content:", error);
     }
@@ -65,11 +67,6 @@ function Comments() {
     <>
       <h2>Comments for Post {postId}</h2>
       <div>
-        <input
-          type="text"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
         <button onClick={handleAddComment}>Add Comment</button>
       </div>
       {comments.length > 0 ? (
@@ -77,34 +74,19 @@ function Comments() {
           <div key={comment.id}>
             <h4>{comment.name}</h4>
             <p>{comment.body}</p>
-            {/* <input
-              type="text"
-              value={comment.newContent || ""}
-              onChange={(e) => {
-                const { value } = e.target;
-                setComments((prevComments) =>
-                  prevComments.map((c) => {
-                    if (c.id === comment.id) {
-                      return { ...c, newContent: value };
-                    }
-                    return c;
-                  })
+            <button
+              onClick={() => {
+                const newComment = window.prompt(
+                  "Enter update comment:",
+                  comment.title
                 );
+                if (newComment && newComment.trim() !== "") {
+                  updateCommentContent(comment.id, newComment);
+                }
               }}
-            /> */}
-                <button
-                  onClick={() => {
-                    const newComment = window.prompt(
-                      "Enter update comment:",
-                      comment.title
-                    );
-                    if (newComment && newComment.trim() !== "") {
-                      updateCommentContent(comment.id, newComment);
-                    }
-                  }}
-                >
-                  Edit
-                </button>
+            >
+              Edit
+            </button>
             <button onClick={() => deleteComment(comment.id)}>Delete</button>
           </div>
         ))
