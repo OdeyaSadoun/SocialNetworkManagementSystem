@@ -48,8 +48,9 @@ router.put("/api/users/:username/posts/:postId/comments/:commentId/edit", (req, 
   const username = req.params.username;
   const commentId = req.params.commentId;
   const { content } = req.body;
+  console.log('update comments', content, commentId)
   connection.query(
-    "UPDATE comments SET content = ? WHERE id = ?",
+    "UPDATE comments SET body = ? WHERE id = ?",
     [content, commentId],
     (err, results) => {
       if (err) {

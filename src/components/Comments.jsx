@@ -25,21 +25,6 @@ function Comments() {
     fetchComments();
   }, [postId, username]);
 
-  const fetchComments = async () => {
-    try {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/comments?postId=${postId}`
-      );
-      const commentsData = await response.json();
-      setComments(commentsData);
-    } catch (error) {
-      console.error("Error fetching comments:", error);
-    }
-  };
-  useEffect(() => {
-    fetchComments();
-  }, [postId]);
-
   const handleAddComment = async () => {
     try {
       await RestAPI.addCommentToPost(username, postId, comment);
@@ -92,7 +77,7 @@ function Comments() {
           <div key={comment.id}>
             <h4>{comment.name}</h4>
             <p>{comment.body}</p>
-            <input
+            {/* <input
               type="text"
               value={comment.newContent || ""}
               onChange={(e) => {
@@ -106,22 +91,20 @@ function Comments() {
                   })
                 );
               }}
-            />
-            <button
-              onClick={() => {
-                updateCommentContent(comment.id, comment.newContent);
-                setComments((prevComments) =>
-                  prevComments.map((c) => {
-                    if (c.id === comment.id) {
-                      return { ...c, newContent: "" };
+            /> */}
+                <button
+                  onClick={() => {
+                    const newComment = window.prompt(
+                      "Enter update comment:",
+                      comment.title
+                    );
+                    if (newComment && newComment.trim() !== "") {
+                      updateCommentContent(comment.id, newComment);
                     }
-                    return c;
-                  })
-                );
-              }}
-            >
-              Edit
-            </button>
+                  }}
+                >
+                  Edit
+                </button>
             <button onClick={() => deleteComment(comment.id)}>Delete</button>
           </div>
         ))
