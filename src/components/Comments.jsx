@@ -23,13 +23,19 @@ function Comments() {
   }, [postId, username]);
 
   const handleAddComment = async () => {
-    const newComment = window.prompt("Enter comment:");
+    const newCommentName = window.prompt("Enter comment name:");
+    const newCommentBody = window.prompt("Enter comment body:");
+    const newCommentEmail = window.prompt("Enter comment email:");
     if (
-      newComment &&
-      newComment.trim() !== ""
+      newCommentName &&
+      newCommentBody &&
+      newCommentEmail &&
+      newCommentName.trim() !== "" &&
+      newCommentBody.trim() !== "" &&
+      newCommentEmail.trim() !== "" 
     ) {
       try {
-        await RestAPI.addCommentToPost(username, postId, comment);
+        await RestAPI.addCommentToPost(username, postId, newCommentName, newCommentBody, newCommentEmail);
         // Clear the comment input field and update the comments list
         refreshComments();
       } catch (error) {

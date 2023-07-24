@@ -244,9 +244,9 @@ export class RestAPI {
     return await RestAPI.fetchData(url);
   }
 
-  static async addCommentToPost(username, postId, content) {
+  static async addCommentToPost(username, postId, newCommentName, newCommentBody, newCommentEmail) {
     const url = `${BASE_URL}/api/users/${username}/posts/${postId}/comments`;
-    const body = { postid: postId, content };
+    const body = { postid: postId, newCommentName, newCommentBody, newCommentEmail };
     const options = {
       method: "POST",
       headers: {

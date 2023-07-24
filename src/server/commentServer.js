@@ -25,10 +25,10 @@ router.get("/api/users/:username/posts/:postId/comments", (req, res) => {
 router.post("/api/users/:username/posts/:postId/comments", (req, res) => {
   // add new comment to comments
   const username = req.params.username;
-  const { postid, content } = req.body;
+  const { postid, newCommentName, newCommentBody, newCommentEmail } = req.body;
   connection.query(
-    "INSERT INTO comments (postid, content) VALUES (?, ?)",
-    [postid, content],
+    "INSERT INTO comments (postid, body, email, name) VALUES (?, ?, ?, ?)",
+    [postid, newCommentBody, newCommentEmail, newCommentName],
     (err, results) => {
       if (err) {
         console.error("Error executing MySQL query:", err);
@@ -38,6 +38,7 @@ router.post("/api/users/:username/posts/:postId/comments", (req, res) => {
       res.json({
         message: "Comment added successfully",
         commentId: results.insertId,
+        status: 201,
       });
     }
   );
