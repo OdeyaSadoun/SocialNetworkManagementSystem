@@ -23,13 +23,18 @@ function Comments() {
   }, [postId, username]);
 
   const handleAddComment = async () => {
-    try {
-      await RestAPI.addCommentToPost(username, postId, comment);
-      // Clear the comment input field and update the comments list
-      setComment("");
-      fetchComments(); // Call fetchComments to update the comments after adding a new one
-    } catch (error) {
-      console.error("Error adding comment:", error);
+    const newComment = window.prompt("Enter comment:");
+    if (
+      newComment &&
+      newComment.trim() !== ""
+    ) {
+      try {
+        await RestAPI.addCommentToPost(username, postId, comment);
+        // Clear the comment input field and update the comments list
+        refreshComments();
+      } catch (error) {
+        console.error("Error adding comment:", error);
+      }
     }
   };
 
