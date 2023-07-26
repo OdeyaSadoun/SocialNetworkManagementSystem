@@ -1,0 +1,7 @@
+/* Style for the error message */
+.error-message {
+    color: red;
+    display: block;
+    margin-top: 5px;
+  }
+  

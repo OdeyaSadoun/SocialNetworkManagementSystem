@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link
-import RestAPI from '../server/RestAPI';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import RestAPI from "../server/RestAPI";
+import "./Register.css";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [website, setWebsite] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [website, setWebsite] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(""); // State variable for email validation error
+  const [registrationError, setRegistrationError] = useState(""); // State variable for registration error
 
   const navigate = useNavigate();
+
+  // Email validation function
+  const isValidEmail = (email) => {
+    // Regular expression for basic email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    console.log('hi handler register');
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    } else {
+      setEmailError(""); // Clear the email error message if email is valid
+    }
+
     // Send registration data to the server
     const response = await RestAPI.createUser(
       name,
@@ -25,15 +41,15 @@ const Register = () => {
       website,
       password
     );
-    console.log('hi register after options');
-    console.log('response', response);
+
     if (response && response.status === 201) {
       // Registration successful, navigate to the login page
-      navigate('/login');
-      console.log('move to navigate');
+      navigate("/login");
     } else {
-      // Registration failed, display an error message or handle as desired
-      console.log('Registration failed');
+      // Registration failed, set the registration error message
+      setRegistrationError(
+        "Fill in reqired fields/ don't repeate existing accounts"
+      );
     }
   };
 
@@ -41,7 +57,7 @@ const Register = () => {
     <div>
       <h2>Register</h2>
       <div>
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="name"> Name:</label>
         <input
           type="text"
           id="name"
@@ -50,7 +66,7 @@ const Register = () => {
         />
       </div>
       <div>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">*Username:</label>
         <input
           type="text"
           id="username"
@@ -59,7 +75,7 @@ const Register = () => {
         />
       </div>
       <div>
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">*Email:</label>
         <input
           type="email"
           id="email"
@@ -86,13 +102,17 @@ const Register = () => {
         />
       </div>
       <div>
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">*Password:</label>
         <input
           type="password"
           id="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
+        {emailError && <span className="error-message">{emailError}</span>}
+        {registrationError && (
+          <span className="error-message">{registrationError}</span>
+        )}
       </div>
       <button onClick={handleRegister}>Register</button>
 
